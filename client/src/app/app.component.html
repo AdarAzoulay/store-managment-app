@@ -1,1 +1,12 @@
-<h1>{{title}}</h1>
+<div class="d-flex" id="wrapper">
+  <app-sidebar [status]="status"></app-sidebar>
+
+  <div id="page-content-wrapper">
+    <app-navbar [status]="status " (changeStatus)="status=$event"></app-navbar>
+
+    <div class="container-fluid">
+      <app-login></app-login>
+    </div>
+    
+  </div>
+</div>

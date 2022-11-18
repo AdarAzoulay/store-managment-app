@@ -4,23 +4,32 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'managment';
-  users : any;
+  users: any;
+  status: boolean = false;
 
-  constructor(private http: HttpClient){
+  constructor(private http: HttpClient) {}
 
-  }
-
-  ngOnInit() : void {
+  ngOnInit(): void {
     this.getUsers();
   }
+  
+
 
   getUsers() {
     this.http.get('https://localhost:5001/api/users').subscribe(
-      res=>{ this.users =res}, err=> {console.log(err)}, ()=>{console.log("comleted")}
-    )
+      (res) => {
+        this.users = res;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+        console.log('comleted');
+      }
+    );
   }
 }
