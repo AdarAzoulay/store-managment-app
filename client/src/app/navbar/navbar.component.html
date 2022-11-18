@@ -1,9 +1,5 @@
 
-  <!-- /#sidebar-wrapper -->
-  <!-- Page Content -->
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-     
       <div class="container-fluid">
         <button class="btn btn-primary" (click)="clickEvent()" [ngClass]="status ? 'remove' : 'show'"> <i class="fa-solid fa-arrow-right-long-to-line"></i></button>
         <button class="btn btn-primary" (click)="clickEvent()" [ngClass]="status ? 'show' : 'remove'"> <i class="fa-solid fa-arrow-left-from-line"></i></button>
@@ -18,11 +14,11 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Link</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item dropdown" dropdown>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" dropdownToggle>
                 Dropdown
               </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown" *dropdownMenu>
                 <li><a class="dropdown-item" href="#">Action</a></li>
                 <li><a class="dropdown-item" href="#">Another action</a></li>
                 <li><hr class="dropdown-divider"></li>
@@ -33,15 +29,20 @@
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li>
           </ul>
-          <form class="d-flex">
+
+          <form *ngIf="currentUser$ | async" class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="button">Search</button>
-            <div class="m-2">Profile</div>
+            
+            <div class="dropdown"  dropdown>
+              <a class="dropdown-toggle mx-4" dropdownToggle>welcome user</a>
+              <div class="dropdown-menu " *dropdownMenu>
+                <a class="dropdown-item">Edit Profile</a>
+                <div class="dropdown-divider"></div>
+                <a (click)="logout()" class="dropdown-item">Logout</a>
+              </div>
+            </div>
           </form>
         </div>
       </div>
     </nav>
-
-
-  <!-- /#page-content-wrapper -->
-<!-- /#wrapper -->

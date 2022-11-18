@@ -20,11 +20,7 @@ body {
   width: 15rem;
 }
 
-#page-content-wrapper {
-  min-width: 100vw;
-}
-
-#wrapper.toggled #sidebar-wrapper {
+#sidebar-wrapper {
   margin-left: 0;
 }
 
@@ -33,10 +29,6 @@ body {
     margin-left: 0;
   }
 
-  #page-content-wrapper {
-    min-width: 0;
-    width: 100%;
-  }
   .show
   {
     margin-left: 0!important;
@@ -45,10 +37,7 @@ body {
   {
     margin-left: -15rem!important;
   }
-  .remove
-  {
-    display: none;
-  }
+
 }
 @media (max-width: 767px) {
   .show
