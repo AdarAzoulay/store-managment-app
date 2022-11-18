@@ -9,10 +9,8 @@ import { AccountService } from './services/account.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'managment';
   users: any;
   status: boolean = false;
-  loggedIn: boolean = false;
 
   constructor(private http: HttpClient,private accountService: AccountService) {}
 

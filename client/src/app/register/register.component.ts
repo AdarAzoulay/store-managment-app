@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-register',
@@ -6,5 +7,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+  model: any = {};
 
+  constructor(private accountService : AccountService) { }
+
+  ngOnInit(): void {
+  }
+
+  register() {
+    this.accountService.register(this.model).subscribe(res=>{
+      console.log(res);
+    },
+    (err)=>{
+      console.log(err);
+    })
+  }
+
+  cancel() {
+    console.log('cancelled');
+  }
 }

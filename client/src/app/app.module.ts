@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     NavbarComponent,
     SidebarComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
