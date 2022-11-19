@@ -1,6 +1,6 @@
 
   <ng-container *ngIf="currentUser$ | async as user">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light ">
       <div class="container-fluid">
         <button class="btn" > <span (click)="clickEvent()" [ngClass]="status ? 'remove' : 'show'" class="navbar-toggler-icon"></span></button>
         <button class="btn" > <span (click)="clickEvent()" [ngClass]="status ? 'show' : 'remove'" class="navbar-toggler-icon"></span></button>
