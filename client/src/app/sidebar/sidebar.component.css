@@ -1,7 +1,9 @@
 body {
   overflow-x: hidden;
 }
-
+.pointer:hover{
+  cursor: pointer;
+}
 #sidebar-wrapper {
   min-height: 100vh;
   margin-left: -15rem;
@@ -23,7 +25,12 @@ body {
 #sidebar-wrapper {
   margin-left: 0;
 }
-
+.active{
+  background-color: sandybrown !important; 
+}
+.list-group-item:hover{
+  color: lavender;
+}
 @media (min-width: 768px) {
   #sidebar-wrapper {
     margin-left: 0;

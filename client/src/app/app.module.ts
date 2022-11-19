@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,9 +9,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { DashboardComponent } from './dashboard/dashboard.component';
-
+import { ProductsComponent } from './products/products.component';
+import { HomeComponent } from './home/home.component';
+import { SettingsComponent } from './settings/settings.component';
+import { CoreModule } from './modules/core.module';
+import { ProductsModule } from './modules/products.module';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     SidebarComponent,
     LoginComponent,
     RegisterComponent,
-    DashboardComponent
+    DashboardComponent,
+    OrdersComponent,
+    HomeComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +35,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     HttpClientModule,  
     BrowserAnimationsModule,
     FormsModule,
-    BsDropdownModule.forRoot() 
+    CoreModule,
+    ProductsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

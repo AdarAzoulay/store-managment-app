@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { AccountService } from '../services/account.service';
@@ -14,7 +15,7 @@ export class NavbarComponent {
   @Input() status: boolean = false;
   @Output() changeStatus : EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private accountService: AccountService){
+  constructor(private accountService: AccountService , private router : Router){
     this.currentUser$ = this.accountService.currentUser$;
 
   }
@@ -26,6 +27,7 @@ export class NavbarComponent {
 
   logout() {
     this.accountService.logout();
+    this.router.navigateByUrl('/login')
   }
   
 }

@@ -1,13 +1,15 @@
-<div class="d-flex" id="wrapper">
-    <div class="bg-light border-right" id="sidebar-wrapper" [ngClass]="this.status ? 'hide' : 'show'" >
-      <div class="sidebar-heading">Store-Managment </div>
-      <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+<ng-container *ngIf="currentUser$ |async">
+<div class="d-flex " id="wrapper">
+    <div class="border-right bg-dark" id="sidebar-wrapper" [ngClass]="this.status ? 'hide' : 'show'" >
+      <div class="sidebar-heading pointer " style="margin-bottom:1px ;" routerLink="/">Store-Managment </div>
+      <hr>
+      <div class="list-group list-group-flush" >
+        <!-- <a routerLinkActive="active" routerLink="/" class="list-group-item list-group-item-action ">Home</a> -->
+        <a routerLinkActive="active" routerLink="/dashboard" class="list-group-item list-group-item-action bg-dark">Dashboard</a>
+        <a routerLinkActive="active" routerLink="/orders" class="list-group-item list-group-item-action bg-dark">Orders</a>
+        <a routerLinkActive="active" routerLink="/products" class="list-group-item list-group-item-action bg-dark">Products</a>
+        <a routerLinkActive="active" routerLink="/settings" class="list-group-item list-group-item-action bg-dark">Profile Settings</a>
       </div>
     </div>
 </div>
+</ng-container>
