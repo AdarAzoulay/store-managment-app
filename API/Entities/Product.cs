@@ -14,11 +14,11 @@ namespace API.Entities
         public string Title { get; set; }
         public string Brand { get; set; }
         public float BuyPrice { get; set; }
-        public string[] Images { get; set; }
+        public ICollection<Photo> Photos { get; set; }
         public string Url { get; set; }
         public string ProductCategory { get; set; }
         public string DetailedDescription { get; set; }
-        public object ProductInfo { get; set; }
+        // public object ProductInfo { get; internal set; }
 
         public AppUser AppUser { get; set; }
         public int AppUserId { get; set; }
