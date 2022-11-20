@@ -1,0 +1,38 @@
+[
+    {
+        "DatePurchased": "2020-06-18",
+        "BuyerUsername": "Yossi",
+        "Qty": 2,
+        "DaysAwaitingShippment": 0,
+        "Status": "Shipped",
+        "BuyPrice": 2.0,
+        "SellPrice": 5.0,
+        "Address": "United States, TX, San Antonio, 3935 Thousand Oaks Dr , Apt 209 ",
+        "Title":"The Pioneer Woman Blooming Bouquet 20-Piece Bake & Prep Set with Baking Dish & Measuring Cups ",
+        "PhotoUrl":"https://i5.walmartimages.com/asr/e6ff020c-7da7-4de9-aa8b-8118c42d15e5.752f70c79cab3361d71474e161db8e8f.jpeg"
+    },
+    {
+        "DatePurchased": "2020-06-18",
+        "BuyerUsername": "Bar",
+        "Qty": 1,
+        "DaysAwaitingShippment": 3,
+        "Status": "Pending",
+        "BuyPrice": 28.2,
+        "SellPrice": 42,
+        "Address": "United States, MN, pine river, 6618 Indian Trail Ln",
+        "Title":"HP 14' Touch Chromebook, Intel Celeron N4120, 4GB RAM, 64GB eMMC, Forest Teal, Chrome OS, 14a-ca0790wm",
+        "PhotoUrl":"https://i5.walmartimages.com/asr/cfd87925-d466-44c5-a93d-b9abefcdf738.8784f96038e3dca3fc6befdc129ad625.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF"
+    },
+    {
+        "DatePurchased": "2020-06-18",
+        "BuyerUsername": "Elad",
+        "Qty": 1,
+        "DaysAwaitingShippment": 4,
+        "Status": "Ordered",
+        "BuyPrice": 20.2,
+        "SellPrice": 40,
+        "Address": "United States, WA, Elma, 68 Hurd Rd ",
+        "Title":"LEGO Classic Bricks and Animals 11011 Creative Toy That Builds into 10 Amazing Animal Figures (1,500 Pieces)",
+        "PhotoUrl":"https://www.walmart.com/ip/LEGO-Classic-Bricks-and-Animals-11011-Creative-Toy-That-Builds-into-10-Amazing-Animal-Figures-1-500-Pieces/708206775?athbdg=L1800"
+    }
+]

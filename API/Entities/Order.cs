@@ -10,6 +10,8 @@ namespace API.Entities
     public class Order
     {
         public int Id { get; set; }
+        public string Title { get; set; }
+        public string PhotoUrl { get; set; }
         public DateTime DatePurchased { get; set; }
         public string BuyerUsername { get; set; }
         public int Qty { get; set; }
