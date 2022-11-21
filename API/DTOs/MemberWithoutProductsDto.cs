@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace API.DTOs
 {
-    public class MemberDto
+    public class MemberWithoutProductsDto
     {
         public int Id { get; set; }
         public string Username { get; set; }
@@ -13,7 +13,6 @@ namespace API.DTOs
         public DateTime LastActive { get; set; } 
         public string Country { get; set; }
         public ICollection<OrderDto> Orders { get; set; }
-        public ICollection<ProductDto> Products { get; set; }
 
     }
 }
