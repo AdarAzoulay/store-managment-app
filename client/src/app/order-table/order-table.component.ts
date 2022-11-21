@@ -3,11 +3,11 @@ import { Order } from '../models/order';
 import { MembersService } from '../services/members.service';
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.css']
+  selector: 'app-order-table',
+  templateUrl: './order-table.component.html',
+  styleUrls: ['./order-table.component.css']
 })
-export class OrdersComponent {
+export class OrderTableComponent {
   orders: Order[] = [];
 
   constructor(private memberService : MembersService){}

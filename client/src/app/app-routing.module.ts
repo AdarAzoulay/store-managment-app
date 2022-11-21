@@ -32,8 +32,8 @@ const routes: Routes = [
       {path:'',component: HomeComponent},
       {path:'dashboard',component: DashboardComponent},
       {path:'settings/:id',component: SettingsComponent},
-      {path:'orders', loadChildren: () => import('./modules/products.module').then(m => m.ProductsModule)},
-      {path:'products', component: ProductsComponent}
+      {path:'products',component: ProductsComponent},
+      {path:'orders', component: OrdersComponent}
     ]
   }
 ];

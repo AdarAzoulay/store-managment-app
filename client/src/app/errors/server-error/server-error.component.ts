@@ -8,12 +8,11 @@ import { Router } from '@angular/router';
 })
 export class ServerErrorComponent {
 error:any;
-errorDetail: string;
 constructor(private router : Router)
 {
   const navigation = this.router.getCurrentNavigation();
   this.error = navigation?.extras?.state?.['error'];
-  this.errorDetail = this.error?.split(".")[1];
+  console.log(this.error)
 
 }
 

@@ -15,7 +15,6 @@ export class AppComponent {
   constructor(private http: HttpClient,private accountService: AccountService) {}
 
   ngOnInit(): void {
-    this.getUsers();
     this.setCurrentUser();
   }
 
@@ -26,17 +25,17 @@ export class AppComponent {
   }
   
 
-  getUsers() {
-    this.http.get('https://localhost:5001/api/users').subscribe(
-      (res) => {
-        this.users = res;
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-        console.log('comleted');
-      }
-    );
-  }
+  // getUsers() {
+  //   this.http.get('https://localhost:5001/api/users').subscribe(
+  //     (res) => {
+  //       this.users = res;
+  //     },
+  //     (err) => {
+  //       console.log(err);
+  //     },
+  //     () => {
+  //       console.log('comleted');
+  //     }
+  //   );
+  // }
 }

@@ -13,8 +13,8 @@ const routes: Routes = [
   [CommonModule,
     RouterModule.forChild(routes) // these are child routes (not starting from the root path)],
   ],
-  exports: [RouterModule,ProductsComponent],
   declarations: [ProductsComponent],
+  exports: [RouterModule,ProductsComponent],
   providers: [],
 })
 export class ProductsModule {}

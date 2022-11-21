@@ -12,13 +12,15 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
-import { CoreModule } from './modules/core.module';
 import { ProductsModule } from './modules/products.module';
 import { OrdersComponent } from './orders/orders.component';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { CoreModule } from './modules/core.module';
+import { OrderTableComponent } from './order-table/order-table.component';
+import { CutLongTitlePipe } from './pipes/cut-long-title.pipe';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,10 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     SettingsComponent,
     TestErrorsComponent,
     NotFoundComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    OrderTableComponent,
+    CutLongTitlePipe,
+    
   ],
   imports: [
     BrowserModule,
@@ -42,7 +47,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     BrowserAnimationsModule,
     FormsModule,
     CoreModule,
-    ProductsModule
+    
   ],
   providers: [
     {

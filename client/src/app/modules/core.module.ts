@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ToastrModule } from 'ngx-toastr';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+
 
 @NgModule({
     imports: [
@@ -9,12 +11,14 @@ import { ToastrModule } from 'ngx-toastr';
         BsDropdownModule.forRoot(),
         ToastrModule.forRoot({ // this module takes some configuration
           positionClass:'toast-bottom-right'
-        })
+        }),
+        TooltipModule.forRoot(),
         
     ],
     exports: [
         BsDropdownModule,
-        ToastrModule
+        ToastrModule,
+        TooltipModule
     ],
     declarations: [],
     providers: [],

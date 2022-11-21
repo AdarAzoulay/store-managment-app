@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, ReplaySubject } from 'rxjs';
 import { User } from '../models/user';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' }) //an injectable singleton (does not destroys until we close our app)
 export class AccountService {
 
-    baseUrl = 'https://localhost:5001/api/'
+    baseUrl = environment.apiUrl;
     private currentUserSource$ = new ReplaySubject<User>(1);
     currentUser$ = this.currentUserSource$.asObservable();
   
