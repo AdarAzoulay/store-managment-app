@@ -21,6 +21,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { CoreModule } from './modules/core.module';
 import { OrderTableComponent } from './order-table/order-table.component';
 import { CutLongTitlePipe } from './pipes/cut-long-title.pipe';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,11 @@ import { CutLongTitlePipe } from './pipes/cut-long-title.pipe';
       provide: HTTP_INTERCEPTORS, 
       useClass: ErrorInterceptor, 
       multi: true                 
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]
