@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Member, MemberWithoutProducts } from '../models/member';
 import { Order } from '../models/order';
 import { map } from 'rxjs';
+import { OrderChange } from '../models/orderChange';
 
 @Injectable({ providedIn: 'root' })
 export class MembersService {
@@ -30,5 +31,9 @@ export class MembersService {
             return orders;
           })
     );
+  }
+
+  updateOrder(order: OrderChange) {
+    return this.http.put(`${this.baseUrl}orders`, order);
   }
 }

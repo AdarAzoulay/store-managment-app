@@ -22,6 +22,8 @@ namespace API.Helpers
 
             CreateMap<Product, ProductDto>();
 
+            CreateMap<OrderUpdateDto, Order>();
+
         }
     }
 }

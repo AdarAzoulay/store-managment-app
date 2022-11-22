@@ -22,6 +22,7 @@ import { CoreModule } from './modules/core.module';
 import { OrderTableComponent } from './order-table/order-table.component';
 import { CutLongTitlePipe } from './pipes/cut-long-title.pipe';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { OrderModalComponent } from './order-modal/order-modal.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     ServerErrorComponent,
     OrderTableComponent,
     CutLongTitlePipe,
+    OrderModalComponent,
     
   ],
   imports: [

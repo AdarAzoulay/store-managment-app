@@ -19,6 +19,7 @@
         <td>
           <div class="d-flex align-items-center">
             <img
+                (click)="openModalWithComponent(order)"
                 src="{{order.photoUrl}}"
                 alt=""
                 style="width: 45px; height: 45px"
@@ -32,7 +33,9 @@
         </td>
         <td>
           <div>
-          <p class="fw-normal mb-1">{{order.status}}</p>
+          <p [ngClass]="{'bg-warning' : order.status=='Pending' , 'bg-info' : order.status=='Ordered',
+          'bg-success' : order.status=='Delivered'}" 
+          [ngStyle]="{'background-color': order.status=='Shipped' ? '#355CEE' : null}" class="fw-normal mb-1">{{order.status}}</p>
           <!-- <p class="text-muted mb-0">IT department</p> -->
         </div>
         </td>
@@ -48,7 +51,7 @@
         </td>
         <td>
           <div>
-          <button type="button" class="btn btn-link btn-sm btn-rounded">
+          <button (click)="openModalWithComponent(order)" type="button" class="btn btn-link btn-sm btn-rounded">
             Edit
           </button>
         </div>

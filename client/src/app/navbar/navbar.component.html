@@ -21,9 +21,14 @@
             <button class="btn btn-outline-success" type="button">Search</button>
             
             <div class="dropdown"  dropdown>
-              <a class="dropdown-toggle mx-4 danger" dropdownToggle>{{user.username | titlecase}}</a>
+              <div class="d-flex flex-row align-items-center" style="margin:0 3rem ;">
+                <i class="fa fa-user fa-2x" style="cursor: pointer;" dropdownToggle></i>
+                <!-- <a class="dropdown-toggle danger" >{{user.username | titlecase}}</a> -->
+                <span>{{user.username | titlecase}}</span>
+   
+              </div>
               <div class="dropdown-menu " *dropdownMenu>
-                <a class="dropdown-item">Edit Profile</a>
+                <a class="dropdown-item" routerLink="/settings/{{user.username}}">Edit Profile</a>
                 <div class="dropdown-divider"></div>
                 <a (click)="logout()" class="dropdown-item">Logout</a>
               </div>
