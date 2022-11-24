@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Order } from '../models/order';
-import { MembersService } from '../services/members.service';
+import { OrdersService } from '../services/orders.service';
 
 @Component({
   selector: 'app-orders',
@@ -10,13 +10,13 @@ import { MembersService } from '../services/members.service';
 export class OrdersComponent {
   orders: Order[] = [];
 
-  constructor(private memberService : MembersService){}
+  constructor(private orderService : OrdersService){}
 
   ngOnInit(): void {
-    this.loadOrder();
+    // this.loadOrder();
   }
-  loadOrder() {
-    this.memberService.getOrders().subscribe(
-      orders=>this.orders=orders)
-  }
+  // loadOrder() {
+  //   this.orderService.getOrders().subscribe(
+  //     orders=>this.orders=orders)
+  // }
 }

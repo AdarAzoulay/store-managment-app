@@ -10,12 +10,3 @@ export interface Member {
     products:   any[];
 }
 
-export interface MemberWithoutProducts {
-    id:         number;
-    username:   string;
-    created:    Date;
-    lastActive: Date;
-    country:    string;
-    orders:     Order[];
-
-}

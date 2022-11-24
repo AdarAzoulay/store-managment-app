@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { Observable, take } from 'rxjs';
 import { Order } from '../models/order';
+import { User } from '../models/user';
 import { OrderModalComponent } from '../order-modal/order-modal.component';
+import { AccountService } from '../services/account.service';
 import { MembersService } from '../services/members.service';
+import { OrdersService } from '../services/orders.service';
 
 @Component({
   selector: 'app-order-table',
@@ -10,16 +14,15 @@ import { MembersService } from '../services/members.service';
   styleUrls: ['./order-table.component.css']
 })
 export class OrderTableComponent {
-  orders: Order[] = [];
   bsModalRef?: BsModalRef;
-  constructor(private memberService : MembersService,private modalService: BsModalService){}
+  orders$: Observable<Order[]> | undefined
+  user : User = {token: '', username: ''};
+
+  constructor(private orderService: OrdersService,private accountService: AccountService,private modalService: BsModalService){}
 
   ngOnInit(): void {
-    this.loadOrder();
-  }
-  loadOrder() {
-    this.memberService.getOrders().subscribe(
-      orders=>this.orders=orders)
+    this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+    this.orders$ = this.orderService.getMemberOrders(this.user.username);
   }
 
   openModalWithComponent(order:Order ){
@@ -31,8 +34,4 @@ export class OrderTableComponent {
     this.bsModalRef = this.modalService.show(OrderModalComponent,initialState);
 
   }
-
-
-
-
 }
