@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authorization;
@@ -18,59 +19,48 @@ namespace API.Controllers
     [Authorize]
     public class OrdersController : BaseApiController
     {
-        private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public OrdersController(DataContext context, IMapper mapper)
+        private readonly IOrderRepository _orderRepository;
+        public OrdersController(IOrderRepository orderRepository, IMapper mapper)
         {
+            _orderRepository = orderRepository;
             _mapper = mapper;
-            _context = context;
-
         }
         [HttpGet]
-        public async Task<IEnumerable<Order>> GetOrdersAsync()
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
-            return await _context.Orders
-            // .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
-            // .Include(x => x.Orders) 
-            .ToListAsync();
-        }
-
-        [HttpGet("{username}")]
-        public async Task<IEnumerable<MemberWithoutProductsDto>> GetUserOrdersAsync(string username)
-        {
-            return await _context.Users
-            .Where(x => x.UserName == username)
-            .ProjectTo<MemberWithoutProductsDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+            var orders =  await _orderRepository.GetOrdersAsync();
+            return Ok(orders);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<Order> GetOrderByIdAsync(int id)
+        public async Task<ActionResult<OrderDto>> GetOrder(int id)
         {
-            return await _context.Orders
-            .Where(x => x.Id == id)
-            .SingleOrDefaultAsync();
+            var rtn = await _orderRepository.GetSpesificOrderAsync(id);
+            return rtn;
         }
 
-        public void Update(Order order)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetMemberOrders(string username)
         {
-            _context.Entry<Order>(order).State = EntityState.Modified;
+            var rtn = await _orderRepository.OrdersByUsernameAsync(username);
+            return Ok(rtn);
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateOrder(OrderUpdateDto orderUpdateDto)
-        {
-            var order = await GetOrderByIdAsync(orderUpdateDto.Id);
-            order.Address = orderUpdateDto.Address;
-            order.BuyerUsername = orderUpdateDto.BuyerUsername;
-            order.Status = orderUpdateDto.Status;
-            _context.Update(order);
-            if (await _context.SaveChangesAsync() > 0)
-            {
-                return NoContent();
-            }
+        // [HttpPut]
+        // public async Task<ActionResult> UpdateOrder(OrderUpdateDto orderUpdateDto)
+        // {
+        //     var order = await GetOrderByIdAsync(orderUpdateDto.Id);
+        //     order.Address = orderUpdateDto.Address;
+        //     order.BuyerUsername = orderUpdateDto.BuyerUsername;
+        //     order.Status = orderUpdateDto.Status;
+        //     _context.Update(order);
+        //     if (await _context.SaveChangesAsync() > 0)
+        //     {
+        //         return NoContent();
+        //     }
 
-            return BadRequest("Failed to update order");
-        }
+        //     return BadRequest("Failed to update order");
+        // }
     }
 }

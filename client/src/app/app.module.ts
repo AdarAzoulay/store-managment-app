@@ -23,6 +23,8 @@ import { OrderTableComponent } from './order-table/order-table.component';
 import { CutLongTitlePipe } from './pipes/cut-long-title.pipe';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { OrderModalComponent } from './order-modal/order-modal.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,7 @@ import { OrderModalComponent } from './order-modal/order-modal.component';
     BrowserAnimationsModule,
     FormsModule,
     CoreModule,
-    
+    NgxSpinnerModule
   ],
   providers: [
     {
@@ -61,6 +63,11 @@ import { OrderModalComponent } from './order-modal/order-modal.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true
     }
   ],

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
@@ -35,6 +36,7 @@ namespace API.Controllers
         [HttpGet("{username}")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
+            // var id = User.Claims.Where(x=>x.Type== "id").FirstOrDefault()?.Value;
             var rtn = await _userRepository.GetMemberAsync(username);
             return rtn;
         }
