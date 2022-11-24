@@ -29,11 +29,11 @@ namespace API.Data
             .ToListAsync();        
         }
 
-        public async Task<OrderDto> GetSpesificOrderAsync(int id)
+        public async Task<Order> GetSpesificOrderAsync(int id)
         {
             return await _context.Orders
             .Where(x => x.Id == id)
-            .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
+            // .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
             .SingleOrDefaultAsync();
         }
 

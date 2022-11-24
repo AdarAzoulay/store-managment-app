@@ -34,7 +34,7 @@
         <td>
           <div>
           <p [ngClass]="{'bg-warning' : order.status=='Pending' , 'bg-info' : order.status=='Ordered',
-          'bg-success' : order.status=='Delivered'}" 
+          'bg-success' : order.status=='Delivered' , 'bg-secondary' : order.status=='Cancelled'}" 
           [ngStyle]="{'background-color': order.status=='Shipped' ? '#355CEE' : null}" class="fw-normal mb-1">{{order.status}}</p>
           <!-- <p class="text-muted mb-0">IT department</p> -->
         </div>

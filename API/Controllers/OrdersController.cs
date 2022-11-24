@@ -34,7 +34,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<OrderDto>> GetOrder(int id)
+        public async Task<ActionResult<Order>> GetOrder(int id)
         {
             var rtn = await _orderRepository.GetSpesificOrderAsync(id);
             return rtn;
@@ -47,20 +47,21 @@ namespace API.Controllers
             return Ok(rtn);
         }
 
-        // [HttpPut]
-        // public async Task<ActionResult> UpdateOrder(OrderUpdateDto orderUpdateDto)
-        // {
-        //     var order = await GetOrderByIdAsync(orderUpdateDto.Id);
-        //     order.Address = orderUpdateDto.Address;
-        //     order.BuyerUsername = orderUpdateDto.BuyerUsername;
-        //     order.Status = orderUpdateDto.Status;
-        //     _context.Update(order);
-        //     if (await _context.SaveChangesAsync() > 0)
-        //     {
-        //         return NoContent();
-        //     }
+        [HttpPut]
+        public async Task<ActionResult> UpdateOrder(OrderUpdateDto orderUpdateDto)
+        {
+            // var id = User.Claims.Where(x=>x.Type== "id").FirstOrDefault()?.Value;
+            var order = await _orderRepository.GetSpesificOrderAsync(orderUpdateDto.Id);
+            order.Address = orderUpdateDto.Address;
+            order.BuyerUsername = orderUpdateDto.BuyerUsername;
+            order.Status = orderUpdateDto.Status;
+            _orderRepository.Update(order);
+            if (await _orderRepository.SaveAllAsync())
+            {
+                return NoContent();
+            }
 
-        //     return BadRequest("Failed to update order");
-        // }
+            return BadRequest("Failed to update order");
+        }
     }
 }

@@ -14,8 +14,6 @@ namespace API.Helpers
         {   // we want to map AppUser => MemberDto
             CreateMap<AppUser, MemberDto>();
 
-            CreateMap<AppUser, OrderList>();
-
             CreateMap<AppUser, MemberWithoutProductsDto>();
 
             CreateMap<Order, OrderDto>();

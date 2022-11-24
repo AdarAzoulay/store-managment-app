@@ -49,14 +49,15 @@
 			<form #editForm2="ngForm" (ngSubmit)="updateOrder()" id="editForm2">
 			<label for="status" class="m-2">Status</label>
 			<select [ngClass]="{'bg-warning' : customOrder.status=='Pending' , 'bg-info' : customOrder.status=='Ordered',
-								'bg-success' : customOrder.status=='Delivered'}" 
+								'bg-success' : customOrder.status=='Delivered', 'bg-secondary' : customOrder.status=='Cancelled'}" 
 								[ngStyle]="{'background-color': customOrder.status=='Shipped' ? '#355CEE' : null}"
 					class="form-select form-select-lg mb-3" name="status" 
 					[(ngModel)]="customOrder.status" aria-label=".form-select-lg example">
-				<option class="bg-warning" value="Pending" [selected]="customOrder.status=='Pending'">Pending</option>
-				<option class="bg-info" value="Ordered" [selected]="customOrder.status=='Ordered'">Ordered</option>
-				<option style="background-color: #355CEE;" value="Shipped" [selected]="customOrder.status=='Shipped'">Shipped</option>
-				<option class="bg-success" value="Delivered" [selected]="customOrder.status=='Delivered'">Delivered</option>
+				<option class="bg-light" value="Pending" [selected]="customOrder.status=='Pending'">Pending</option>
+				<option class="bg-light" value="Ordered" [selected]="customOrder.status=='Ordered'">Ordered</option>
+				<option class="bg-light" value="Shipped" [selected]="customOrder.status=='Shipped'">Shipped</option>
+				<option class="bg-light" value="Delivered" [selected]="customOrder.status=='Delivered'">Delivered</option>
+				<option class="bg-light" value="Cancelled" [selected]="customOrder.status=='Cancelled'">Cancelled</option>
 			  </select>
 			  </form>
 		  </div>
