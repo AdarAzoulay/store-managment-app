@@ -24,6 +24,8 @@ namespace API.Helpers
 
             CreateMap<OrderUpdateDto, Order>();
 
+            CreateMap<RegisterDto, AppUser>();
+
         }
     }
 }

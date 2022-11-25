@@ -16,7 +16,7 @@
             <span class="ant-checkbox"><input type="checkbox" class="ant-checkbox-input" value=""></span>
           </div>
         </td>
-        <td>
+        <td style="max-width: 150px;">
           <div class="d-flex align-items-center">
             <img
                 (click)="openModalWithComponent(order)"
@@ -26,7 +26,7 @@
                 class="rounded-circle"
                 />
             <!-- <div class="ms-3"> -->
-              <p class="fw-bold mb-1" title="{{order.title}}">{{order.title|cutLongTitle}}</p>
+              <p class="fw-bold mb-1 cut-text" title="{{order.title}}">{{order.title}}</p>
               <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
             <!-- </div> -->
           </div>

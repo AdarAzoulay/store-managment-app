@@ -8,3 +8,10 @@ div {
 img:hover{
     cursor: pointer;
 }
+
+.cut-text { 
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    margin: 0 10px;
+    white-space: nowrap;
+  }

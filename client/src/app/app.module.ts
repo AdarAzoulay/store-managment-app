@@ -6,7 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule , ReactiveFormsModule} from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -25,6 +25,8 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { OrderModalComponent } from './order-modal/order-modal.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
+import { DraftsComponent } from './drafts/drafts.component';
+
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     OrderTableComponent,
     CutLongTitlePipe,
     OrderModalComponent,
+    DraftsComponent,
     
   ],
   imports: [
@@ -52,7 +55,8 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     BrowserAnimationsModule,
     FormsModule,
     CoreModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ReactiveFormsModule
   ],
   providers: [
     {

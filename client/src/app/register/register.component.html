@@ -6,33 +6,45 @@
 
             <div class="card-body p-4 p-sm-5">
               <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
-              <form (ngSubmit)="register()">
+              <form [formGroup]='registerForm' (ngSubmit)="register()" autocomplete="off">
   
                 <div class="form-floating mb-3">
-                  <input name="username" [(ngModel)]="model.username" type="text" class="form-control" id="floatingInputUsername" placeholder="myusername" required autofocus>
+                  <input
+                  [class.is-invalid]="registerForm.get('username')?.errors && registerForm.get('username')?.touched"
+                  type="text" class="form-control" formControlName="username" id="floatingInputUsername" placeholder="Username" required autofocus>
+                  <div class="invalid-feedback">Please enter a username</div>
                   <label for="floatingInputUsername">Username</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <input
+                  [class.is-invalid]="registerForm.get('country')?.errors && registerForm.get('country')?.touched"
+                  type="text" class="form-control" formControlName="country" id="floatingInputCountry" placeholder="Country" >
+                  <div class="invalid-feedback">Please enter a country</div>
+                  <label for="floatingInputCountry">Country</label>
                 </div>
                 
                 <div class="form-floating mb-3">
-                    <input name="password" [(ngModel)]="model.password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <input 
+                    [class.is-invalid]="registerForm.get('password')?.errors && registerForm.get('password')?.touched"
+                    type="password" class="form-control" formControlName="password" id="floatingPassword" placeholder="Password">
+                    <div *ngIf="registerForm.get('password')?.hasError('required')" class="invalid-feedback">Please enter a password</div>
+                    <div *ngIf="registerForm.get('password')?.hasError('minlength')" class="invalid-feedback">password must be at least 4 characters</div>
+                    <div *ngIf="registerForm.get('password')?.hasError('maxlength')" class="invalid-feedback">password must be at most 12 characters</div>
                     <label for="floatingPassword">Password</label>
                 </div>
                 
-                <hr>
-
-                <!-- <div class="form-floating mb-3">
-                  <input type="email" class="form-control" id="floatingInputEmail" placeholder="name@example.com">
-                  <label for="floatingInputEmail">Email address</label>
-                </div>
-  
-  
                 <div class="form-floating mb-3">
-                  <input type="password" class="form-control" id="floatingPasswordConfirm" placeholder="Confirm Password">
+                  <input
+                  [class.is-invalid]="registerForm.get('confirmPassword')?.errors && registerForm.get('confirmPassword')?.touched"
+                  type="password" class="form-control" formControlName="confirmPassword" id="floatingPasswordConfirm" placeholder="Confirm Password">
+                  <div *ngIf="registerForm.get('confirmPassword')?.hasError('required')" class="invalid-feedback">Please confirm the password</div>
+                  <div *ngIf="registerForm.get('confirmPassword')?.hasError('isMatching')" class="invalid-feedback">Confirm confirmation must match the password </div>              
                   <label for="floatingPasswordConfirm">Confirm Password</label>
-                </div> -->
-  
+                </div> 
+                <hr>
                 <div class="d-grid mb-2">
-                  <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit">Register</button>
+                  <button [disabled]="registerForm.status=='INVALID'" class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit">Register</button>
                 </div>
   
                 <a class="d-block text-center mt-2 small" routerLink="/login">Have an account? Sign In</a>

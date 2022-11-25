@@ -39,8 +39,10 @@ export class OrdersService {
   updateOrder(order: Order) {
     return this.http.put(`${this.baseUrl}orders`, order).pipe(
       tap(() => {
-        const index = this.orders.indexOf(order);
-        this.orders[index] == order;
+        const index1 = this.orders.indexOf(order);
+        this.orders[index1] == order;
+        const index2 = this.userOrders.indexOf(order);
+        this.userOrders[index2] == order;
       })
     );
   }
