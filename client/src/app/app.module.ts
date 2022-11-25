@@ -26,6 +26,8 @@ import { OrderModalComponent } from './order-modal/order-modal.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { DraftsComponent } from './drafts/drafts.component';
+import { DraftsTableComponent } from './drafts-table/drafts-table.component';
+import { DraftsModalComponent } from './drafts-modal/drafts-modal.component';
 
 
 @NgModule({
@@ -46,6 +48,8 @@ import { DraftsComponent } from './drafts/drafts.component';
     CutLongTitlePipe,
     OrderModalComponent,
     DraftsComponent,
+    DraftsTableComponent,
+    DraftsModalComponent,
     
   ],
   imports: [

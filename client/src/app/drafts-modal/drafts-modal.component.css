@@ -1,0 +1,13 @@
+.modal-content{
+    width: 700px;
+}
+
+textarea {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.modal-body{
+    min-height: 300px;
+}

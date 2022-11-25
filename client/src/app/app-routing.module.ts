@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DraftsComponent } from './drafts/drafts.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
@@ -33,6 +34,7 @@ const routes: Routes = [
       {path:'dashboard',component: DashboardComponent},
       {path:'settings/:id',component: SettingsComponent},
       {path:'products',component: ProductsComponent},
+      {path:'drafts',component: DraftsComponent},
       {path:'orders', component: OrdersComponent}
     ]
   }

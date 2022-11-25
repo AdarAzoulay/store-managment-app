@@ -15,7 +15,7 @@ import { OrdersService } from '../services/orders.service';
 })
 export class OrderTableComponent {
   bsModalRef?: BsModalRef;
-  orders$: Observable<Order[]> | undefined
+  orders$: Observable<Order[]>
   user : User = {token: '', username: ''};
 
   constructor(private orderService: OrdersService,private accountService: AccountService,private modalService: BsModalService){}

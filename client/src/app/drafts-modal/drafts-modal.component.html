@@ -1,0 +1,69 @@
+<div class="modal-content">
+<div class="modal-header d-flex flex-column">
+	<button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+		<span aria-hidden="true" class="visually-hidden">&times;</span>
+	</button>
+	<!-- <h4 class="modal-title pull-left">
+		<div class="alert alert-info" *ngIf="editForm.dirty || editForm2.dirty">
+			  You have made changes. any unsaved changes will be lost
+		  </div>
+	</h4> -->
+  </div>
+  <tabset>
+	<tab heading="Product">
+	<div class="modal-body">
+		<form #editForm="ngForm" (ngSubmit)="updateDraft()" id="editForm">
+			
+
+            <label for="title" class="m-2">Title</label>
+            <input [(ngModel)]="customDraft.title" type="text" name="title" class="form-control mx-2">
+
+            <div class="d-flex flex-row justify-content-between">
+				<div style="width: 300px;">
+					<label for="brand" class="m-2">Brand</label>
+					<input [(ngModel)]="customDraft.brand" type="text" name="brand" class="form-control mx-2">
+				</div>
+	
+				<div class="mx-2" style="width: 300px;">
+					<label for="productCategory" class="m-2">Category</label>
+					<input [(ngModel)]="customDraft.productCategory" type="text" name="productCategory" class="form-control mx-2">
+				</div>
+			</div>
+
+            <div class="d-flex flex-row justify-content-between">
+				<div style="width: 300px;">
+					<label for="buyPrice" class="m-2">Buy Price</label>
+					<input [(ngModel)]="customDraft.buyPrice" type="text" name="buyPrice" class="form-control mx-2" disabled>
+				</div>
+	
+				<div class="mx-2" style="width: 300px;">
+					<label for="sellPrice" class="m-2">Sell Price</label>
+					<input  type="text" name="sellPrice" class="form-control mx-2" disabled>
+				</div>
+			</div>
+
+		  </form>
+	  </div>
+	</tab>
+	<tab heading="Description">
+		<div class="modal-body" >
+			<form #editForm2="ngForm" (ngSubmit)="updateDraft()" id="editForm2">
+                <textarea rows="8" cols="70" [(ngModel)]="customDraft.detailedDescription" name="detailedDescription"></textarea>
+			  </form>
+		  </div>
+	</tab>
+
+    <tab heading="Images">
+		<div class="modal-body" >
+			<!-- <form #editForm3="ngForm" (ngSubmit)="updateDraft()" id="editForm3">
+
+			  </form> -->
+		  </div>
+	</tab>
+  </tabset>
+
+  <div class="modal-footer">
+	  <button type="button" class="btn btn-primary" (click)="cancel()">Cancel</button>
+	<button type="button" class="btn btn-default" type="submit" form="editForm" [disabled]="editForm2.pristine" [disabled]="editForm.pristine" style="background-color:sandybrown;color: white;" >Save</button>
+  </div>
+</div>
