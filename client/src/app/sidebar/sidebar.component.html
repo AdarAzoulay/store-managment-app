@@ -6,6 +6,7 @@
       <hr>
       <div class="list-group list-group-flush" >
         <!-- <a routerLinkActive="active" routerLink="/" class="list-group-item list-group-item-action ">Home</a> -->
+        <button type="button" class="btn btn-info mb-3 rounded button" (click)="openModal(template)">+ Add Product</button>
         <a routerLinkActive="active" routerLink="/dashboard" class="list-group-item list-group-item-action bg-primary">Dashboard</a>
         <a routerLinkActive="active" routerLink="/orders" class="list-group-item list-group-item-action bg-primary">Orders</a>
         <a routerLinkActive="active" routerLink="/products" class="list-group-item list-group-item-action bg-primary">Products</a>
@@ -16,3 +17,21 @@
     </div>
 </div>
 </ng-container>
+
+<ng-template class="modal-content" #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add Product</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #editForm="ngForm" (ngSubmit)="createDraft(editForm)" id="editForm">
+      <label for="productId" class="m-2">Product ID</label>
+      <input [(ngModel)]="productId" type="text" name="productId" class="form-control mx-2">
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button [disabled]="editForm.pristine" type="submit" form="editForm" class="btn btn-warning" >Add to drafts</button>
+  </div>
+</ng-template>

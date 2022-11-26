@@ -55,10 +55,9 @@ namespace API.Controllers
         [HttpPut("update-draft")]
         public async Task<ActionResult> UpdateProduct(ProductUpdateDto productUpdateDto)
         {
-            // var id = User.Claims.Where(x=>x.Type== "id").FirstOrDefault()?.Value;
             var product = await _productRepository.GetSpesificProductAsync(productUpdateDto.Id);
-            // product.BuyPrice = productUpdateDto.BuyPrice;
-            // product.Title = productUpdateDto.Title;
+            product.BuyPrice = productUpdateDto.BuyPrice;
+            product.Title = productUpdateDto.Title;
             product.ProductCategory = productUpdateDto.ProductCategory;
             product.DetailedDescription = productUpdateDto.DetailedDescription;
             product.IsUploaded = productUpdateDto.IsUploaded;
@@ -103,8 +102,9 @@ namespace API.Controllers
         [HttpPost("add-draft")]
         public async Task<ActionResult<ProductDto>> CreateDraft(ScrapeheroCloud scrapeheroCloud)
         {
+            var id = User.Claims.Where(x=>x.Type== "id").FirstOrDefault()?.Value;
             string jsonString = client
-            .DownloadString($"https://get.scrapehero.com/wmt/product-details/?product_id={scrapeheroCloud.ProductId}&x-api-key={scrapeheroCloud.APIkey}");
+            .DownloadString($"https://get.scrapehero.com/wmt/product-details/?product_id={scrapeheroCloud.ProductId}&x-api-key={scrapeheroCloud.ApiKey}");
             CreateDraftDto value = JsonSerializer.Deserialize<CreateDraftDto>(jsonString);
             if (value == null)
                 return NotFound();
@@ -117,7 +117,7 @@ namespace API.Controllers
                 Url = value.url,
                 ProductCategory = value.product_category,
                 DetailedDescription = value.detailed_description,
-                AppUserId=scrapeheroCloud.UserId
+                AppUserId= int.Parse(id)
             };
 
             _productRepository.AddDraft(draft);

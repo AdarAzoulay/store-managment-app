@@ -13,7 +13,7 @@ export class BusyService {
     this.busyRequestCount++;
     const spinner: Spinner = {
         type: 'square-spin',
-        bdColor: 'rgba(255,255,255)',
+        bdColor: 'rgba(255,255,255,0.7)',
         color: '#333333'
       }
       this.spinnerService.show(undefined, spinner)

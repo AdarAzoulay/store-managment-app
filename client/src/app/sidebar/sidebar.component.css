@@ -1,6 +1,13 @@
 body {
   overflow-x: hidden;
 }
+.button{
+width: 180px;
+margin: auto;
+}
+.button:hover{
+  background-color: sandybrown !important;
+}
 .pointer:hover{
   cursor: pointer;
 }
@@ -28,8 +35,10 @@ body {
 .active{
   background-color: sandybrown !important; 
 }
+
 .list-group-item:hover{
   color: lavender;
+  background-color: sandybrown !important; 
 }
 .list-group-item{
   color: lavender;

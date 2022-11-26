@@ -9,8 +9,3 @@ export interface Product {
     productCategory: string;
     detailedDescription: string;
 }
-
-export interface ProductUpload{
-    id: number;
-    isUploaded: boolean;
-}

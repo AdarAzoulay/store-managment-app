@@ -50,7 +50,7 @@ import { DraftsModalComponent } from './drafts-modal/drafts-modal.component';
     DraftsComponent,
     DraftsTableComponent,
     DraftsModalComponent,
-    
+   
   ],
   imports: [
     BrowserModule,
