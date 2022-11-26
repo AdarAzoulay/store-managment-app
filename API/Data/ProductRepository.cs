@@ -63,5 +63,10 @@ namespace API.Data
         {
             _context.Products.Remove(product);
         }
+
+        public void AddDraft(Product product)
+        {
+            _context.Products.Add(product);
+        }
     }
 }

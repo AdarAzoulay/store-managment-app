@@ -9,6 +9,7 @@ namespace API.Interfaces
 {
     public interface IProductRepository
     {
+        void AddDraft(Product product);
         void Update(Product product);
         Task<bool> SaveAllAsync();
         void DeleteDraft(Product product);

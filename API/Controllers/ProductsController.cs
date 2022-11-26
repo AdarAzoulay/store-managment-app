@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -13,9 +16,12 @@ namespace API.Controllers
     [Route("api/")]
     public class ProductsController : ControllerBase
     {
+        WebClient client = new WebClient();
         private readonly IProductRepository _productRepository;
-        public ProductsController(IProductRepository productRepository)
+        private readonly IMapper _mapper;
+        public ProductsController(IProductRepository productRepository, IMapper mapper)
         {
+            _mapper = mapper;
             _productRepository = productRepository;
         }
         [HttpGet("products")]
@@ -51,8 +57,8 @@ namespace API.Controllers
         {
             // var id = User.Claims.Where(x=>x.Type== "id").FirstOrDefault()?.Value;
             var product = await _productRepository.GetSpesificProductAsync(productUpdateDto.Id);
-            product.BuyPrice = productUpdateDto.BuyPrice;
-            product.Title = productUpdateDto.Title;
+            // product.BuyPrice = productUpdateDto.BuyPrice;
+            // product.Title = productUpdateDto.Title;
             product.ProductCategory = productUpdateDto.ProductCategory;
             product.DetailedDescription = productUpdateDto.DetailedDescription;
             product.IsUploaded = productUpdateDto.IsUploaded;
@@ -92,6 +98,32 @@ namespace API.Controllers
                 return Ok();
 
             return BadRequest("Failed to delete message");
+        }
+
+        [HttpPost("add-draft")]
+        public async Task<ActionResult<ProductDto>> CreateDraft(ScrapeheroCloud scrapeheroCloud)
+        {
+            string jsonString = client
+            .DownloadString($"https://get.scrapehero.com/wmt/product-details/?product_id={scrapeheroCloud.ProductId}&x-api-key={scrapeheroCloud.APIkey}");
+            CreateDraftDto value = JsonSerializer.Deserialize<CreateDraftDto>(jsonString);
+            if (value == null)
+                return NotFound();
+
+            var draft = new Product
+            {
+                Title = value.name,
+                Brand = value.brand,
+                BuyPrice = float.Parse(value.sale_price),
+                Url = value.url,
+                ProductCategory = value.product_category,
+                DetailedDescription = value.detailed_description,
+                AppUserId=scrapeheroCloud.UserId
+            };
+
+            _productRepository.AddDraft(draft);
+            if (await _productRepository.SaveAllAsync()) return _mapper.Map<ProductDto>(draft);
+
+            return BadRequest("Failed to Craete Draft");
         }
 
     }
