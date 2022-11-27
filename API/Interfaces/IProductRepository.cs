@@ -10,13 +10,18 @@ namespace API.Interfaces
     public interface IProductRepository
     {
         void AddDraft(Product product);
+        void AddPhoto(Photo photo);
         void Update(Product product);
         Task<bool> SaveAllAsync();
         void DeleteDraft(Product product);
         Task<IEnumerable<Product>> GetProductsAsync();
-        Task<IEnumerable<Product>> GetDraftsAsync();
+        Task<IEnumerable<ProductDto>> GetDraftsAsync();
         Task<IEnumerable<ProductDto>> ProductsByUsernameAsync(string username);
         Task<IEnumerable<ProductDto>> DraftsByUsernameAsync(string username);
         Task<Product> GetSpesificProductAsync(int id);
+        Task<ProductDto> GetSpesificDraftAsync(int id);
+         Task<bool> ProductExist(string productId);
+
+
     }
 }

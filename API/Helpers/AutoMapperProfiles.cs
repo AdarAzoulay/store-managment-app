@@ -20,7 +20,13 @@ namespace API.Helpers
 
             CreateMap<Photo, PhotoDto>();
 
-            CreateMap<Product, ProductDto>();
+            CreateMap<Product, ProductDto>()
+            .ForMember(
+                dest => dest.PhotoUrl,
+                opt=>{
+                    opt.MapFrom(src=> src.Photos.FirstOrDefault(p=>p.IsMain).Url);
+                }
+            );
 
             CreateMap<OrderUpdateDto, Order>();
 

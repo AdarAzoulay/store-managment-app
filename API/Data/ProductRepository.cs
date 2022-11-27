@@ -6,6 +6,7 @@ using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -19,9 +20,10 @@ namespace API.Data
             _mapper = mapper;
             _context = context;
         }
-        public async Task<IEnumerable<Product>> GetDraftsAsync()
+        public async Task<IEnumerable<ProductDto>> GetDraftsAsync()
         {
             return await _context.Products.Where(i => i.IsUploaded == false)
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
         }
 
@@ -40,8 +42,17 @@ namespace API.Data
         public async Task<Product> GetSpesificProductAsync(int id)
         {
             return await _context.Products
+            .Include(x=>x.Photos)
             .Where(x => x.Id == id)
             .SingleOrDefaultAsync();
+        }
+        public async Task<ProductDto> GetSpesificDraftAsync(int id)
+        {
+            return await _context.Products
+            .Where(x => x.Id == id)
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
+            .SingleOrDefaultAsync();
+
         }
 
         public Task<IEnumerable<ProductDto>> ProductsByUsernameAsync(string username)
@@ -67,6 +78,16 @@ namespace API.Data
         public void AddDraft(Product product)
         {
             _context.Products.Add(product);
+        }
+
+        public void AddPhoto(Photo photo)
+        {
+            _context.Photos.Add(photo);
+        }
+
+        public async Task<bool> ProductExist(string productId)
+        {
+            return await _context.Products.AnyAsync(x => x.ItemId == productId.ToLower());
         }
     }
 }

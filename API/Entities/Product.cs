@@ -14,6 +14,9 @@ namespace API.Entities
         public string Title { get; set; }
         public string Brand { get; set; }
         public float BuyPrice { get; set; }
+        public string ItemId { get; set; }
+        public float SalePrice { get; set; }
+
         public ICollection<Photo> Photos { get; set; }
         public string Url { get; set; }
         public string ProductCategory { get; set; }
