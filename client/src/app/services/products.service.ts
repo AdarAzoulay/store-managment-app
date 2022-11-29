@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { of, take, tap } from 'rxjs';
 import { User } from '../models/user';
 import { AccountService } from './account.service';
-import { Product} from '../models/Product';
+import { Product , updatePhoto} from '../models/Product';
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
@@ -23,6 +23,9 @@ export class ProductsService {
       .pipe(tap((drafts) => (this.drafts = drafts)));
   }
 
+  getDraftById(id:number){
+    return this.http.get<Product>(`${this.baseUrl}drafts/${id}`)
+  }
 
   updateDraft(draft: Product) {
     return this.http.put(`${this.baseUrl}update-draft`, draft).pipe(
@@ -49,7 +52,15 @@ export class ProductsService {
   createDraft(productId:string){
     const createDraft = {productId: productId};
     return this.http.post(this.baseUrl + 'add-draft' , createDraft)
-    .pipe(tap((draft:any) => (this.drafts.length!==0 ? this.drafts.push(draft) : null)));
+    .pipe(tap((draft:any) => ( this.drafts.push(draft))));
    
+  }
+
+  setMainPhoto(updatePhoto: updatePhoto) {
+    return this.http.put(`${this.baseUrl}set-main-photo`, updatePhoto); 
+  }
+
+  deletePhoto(updatePhoto: updatePhoto) {
+    return this.http.delete(`${this.baseUrl}delete-photo`, {body:updatePhoto}); 
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from '../models/Product';
@@ -10,10 +11,15 @@ import { ProductsService } from '../services/products.service';
   styleUrls: ['./drafts-modal.component.css']
 })
 export class DraftsModalComponent {
+  draft:Product;
   customDraft: Product;
-
+  
 
   constructor(private productService : ProductsService,private toastr: ToastrService,public bsModalRef: BsModalRef){}
+
+  ngOnInit(){
+ 
+  }
 
   cancel(){
     this.bsModalRef.hide();
@@ -21,10 +27,12 @@ export class DraftsModalComponent {
 
   updateDraft(){
     this.productService.updateDraft(this.customDraft).subscribe(()=>{
-      this.toastr.success('Order updated successfully');
+      this.toastr.success('Draft updated successfully');
       // this.editForm?.reset(this.customDraft);
       this.bsModalRef.hide();
     })
   }
+
+
 
 }

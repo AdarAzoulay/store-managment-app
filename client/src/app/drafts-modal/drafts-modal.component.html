@@ -3,11 +3,12 @@
 	<button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
 		<span aria-hidden="true" class="visually-hidden">&times;</span>
 	</button>
-	<!-- <h4 class="modal-title pull-left">
+	<h4 class="modal-title pull-left">
 		<div class="alert alert-info" *ngIf="editForm.dirty || editForm2.dirty">
 			  You have made changes. any unsaved changes will be lost
 		  </div>
-	</h4> -->
+	</h4>
+
   </div>
   <tabset>
 	<tab heading="Product">
@@ -33,15 +34,19 @@
             <div class="d-flex flex-row justify-content-between">
 				<div style="width: 300px;">
 					<label for="buyPrice" class="m-2">Buy Price</label>
-					<input [(ngModel)]="customDraft.buyPrice" type="text" name="buyPrice" class="form-control mx-2" disabled>
+					<input [(ngModel)]="customDraft.buyPrice" type="number" step="0.01" name="buyPrice" class="form-control mx-2" disabled>
 				</div>
 	
 				<div class="mx-2" style="width: 300px;">
 					<label for="sellPrice" class="m-2">Sell Price</label>
-					<input  type="text" name="sellPrice" class="form-control mx-2" disabled>
+					<input [(ngModel)]="customDraft.sellPrice"  type="number" step="0.01" name="sellPrice" class="form-control mx-2" >
 				</div>
 			</div>
-
+			<h6 class="modal-title ">
+				<div class="alert alert-danger mt-2 text-center" *ngIf=" customDraft.buyPrice > customDraft.sellPrice">
+					  Buying price is grather than Sell price !
+				  </div>
+			</h6>
 		  </form>
 	  </div>
 	</tab>
@@ -53,11 +58,11 @@
 		  </div>
 	</tab>
 
-    <tab heading="Images">
+    <tab heading="Edit Photos">
 		<div class="modal-body" >
 			<!-- <form #editForm3="ngForm" (ngSubmit)="updateDraft()" id="editForm3">
-
-			  </form> -->
+				</form> -->
+				<app-photo-editor [draft]="customDraft"></app-photo-editor>
 		  </div>
 	</tab>
   </tabset>

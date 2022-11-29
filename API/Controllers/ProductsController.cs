@@ -71,6 +71,7 @@ namespace API.Controllers
             product.DetailedDescription = productUpdateDto.DetailedDescription;
             product.IsUploaded = productUpdateDto.IsUploaded;
             product.Brand = productUpdateDto.Brand;
+            product.SellPrice = productUpdateDto.SellPrice;
 
             _productRepository.Update(product);
             if (await _productRepository.SaveAllAsync())
@@ -132,7 +133,8 @@ namespace API.Controllers
                 ProductCategory = value.product_category,
                 DetailedDescription = value.detailed_description,
                 AppUserId = int.Parse(id),
-                ItemId = value.item_id
+                ItemId = value.item_id,
+                Seller = value.seller
             };
 
             _productRepository.AddDraft(draft);
@@ -170,12 +172,12 @@ namespace API.Controllers
         }
 
         [HttpPut("set-main-photo")]
-        public async Task<ActionResult> SetMainPhoto(UpdateMainPhotoDto updateMainPhotoDto)
+        public async Task<ActionResult> SetMainPhoto(UpdatePhotoDto UpdatePhotoDto)
         {
-            var product = await _productRepository.GetSpesificProductAsync(updateMainPhotoDto.ProductId);
+            var product = await _productRepository.GetSpesificProductAsync(UpdatePhotoDto.ProductId);
 
             // this is synchronous, we allready have the user and it's photos in memory, no walk to the DB
-            var photo = product.Photos.FirstOrDefault(p => p.Id == updateMainPhotoDto.PhotoId);
+            var photo = product.Photos.FirstOrDefault(p => p.Id == UpdatePhotoDto.PhotoId);
 
             if (photo.IsMain) return BadRequest("This is already the main photo");
 
@@ -187,6 +189,20 @@ namespace API.Controllers
             if (await _productRepository.SaveAllAsync()) return NoContent();
 
             return BadRequest("Failed to set photo to main");
+        }
+
+        [HttpDelete("delete-photo")]
+        public async Task<ActionResult> DeletePhoto(UpdatePhotoDto UpdatePhotoDto)
+        {
+            var product = await _productRepository.GetSpesificProductAsync(UpdatePhotoDto.ProductId);
+            var photo = product.Photos.FirstOrDefault(p => p.Id == UpdatePhotoDto.PhotoId);
+            if (photo == null) return BadRequest("Photo not found");
+            if (photo.IsMain) return BadRequest("You cannot delete your main photo");
+
+            product.Photos.Remove(photo);
+            if (await _productRepository.SaveAllAsync()) return Ok();
+            return BadRequest("Failed to delete photo");
+
         }
     }
 }

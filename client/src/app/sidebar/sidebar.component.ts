@@ -18,7 +18,7 @@ export class SidebarComponent {
   @Input() status: boolean = false;
   modalRef?: BsModalRef;
   currentUser$: Observable<User>;
-  productId: string;
+  walmartUrl: string;
 
   constructor(
     private accountService: AccountService,
@@ -37,7 +37,8 @@ export class SidebarComponent {
   }
 
   createDraft(form:NgForm) {
-    this.productService.createDraft(this.productId).subscribe((res) => {
+    const productId = this.walmartUrl.substring(this.walmartUrl.indexOf("athcpid")+8,this.walmartUrl.indexOf("athpgid")-1)
+    this.productService.createDraft(productId).subscribe((res) => {
       this.toastr.success('Draft Uploaded Successfully');
       this.modalRef?.hide();
       form.reset();

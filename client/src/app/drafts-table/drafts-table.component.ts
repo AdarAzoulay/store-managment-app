@@ -26,6 +26,7 @@ export class DraftsTableComponent {
   loadDrafts() {
     this.productService.getDrafts().subscribe((res) => {
       this.drafts = res;
+      console.log(res)
     });
   }
 

@@ -13,7 +13,8 @@ namespace API.DTOs
         public string Brand { get; set; }
         public string ItemId { get; set; }
         public float BuyPrice { get; set; }
-        public float SalePrice { get; set; }
+        public float SellPrice { get; set; }
+        public string Seller { get; set; }
         public ICollection<PhotoDto> Photos { get; set; }
         public string PhotoUrl { get; set; }
         public string Url { get; set; }

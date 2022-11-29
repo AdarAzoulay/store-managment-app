@@ -12,7 +12,6 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
-import { ProductsModule } from './modules/products.module';
 import { OrdersComponent } from './orders/orders.component';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
@@ -28,7 +27,8 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { DraftsComponent } from './drafts/drafts.component';
 import { DraftsTableComponent } from './drafts-table/drafts-table.component';
 import { DraftsModalComponent } from './drafts-modal/drafts-modal.component';
-
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +50,7 @@ import { DraftsModalComponent } from './drafts-modal/drafts-modal.component';
     DraftsComponent,
     DraftsTableComponent,
     DraftsModalComponent,
+    PhotoEditorComponent,
    
   ],
   imports: [
@@ -60,7 +61,8 @@ import { DraftsModalComponent } from './drafts-modal/drafts-modal.component';
     FormsModule,
     CoreModule,
     NgxSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxGalleryModule,
   ],
   providers: [
     {

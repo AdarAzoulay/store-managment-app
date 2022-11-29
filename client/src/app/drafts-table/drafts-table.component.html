@@ -1,31 +1,34 @@
 <table class="table align-middle mb-0 bg-white table-hover mt-4" *ngIf="drafts.length !== 0; else noDrafts">
   <tbody *ngFor="let draft of drafts">
+    <tr>
       <td style="max-width: 5px;">
         <div>
           <span class="ant-checkbox"><input type="checkbox" class="ant-checkbox-input" value=""></span>
         </div>
       </td>
-      <td style="max-width: 150px;">
+      <td style="max-width: 450px;">
         <div class="d-flex align-items-center">
           <img
-           (click)="openModalWithComponent(draft)"
+          src="{{draft.photoUrl}}"
+            (click)="openModalWithComponent(draft)"
               alt=""
-              style="width: 45px; height: 45px"
+              style="width: 55px; height: 55px"
               class="rounded-circle"
               />
           <div class="ms-3">
-            <p class="fw-bold  mb-1 cut-text" title="{{draft.title}}">{{draft.title}}</p>
-            <p class="text-muted fs-6  mb-0">Supplier: {{draft.brand}} &nbsp;&nbsp; |&nbsp;&nbsp; <a class="link-secondary" href="https://{{draft.url}}">View Source Product</a></p>
+            <p style="max-width: 350px;" class="fw-bold mb-1 cut-text" title="{{draft.title}}">{{draft.title}}</p>
+            <p class="text-muted fs-6  mb-0">Supplier: {{draft.seller}} &nbsp;&nbsp; |&nbsp;&nbsp; Sellet: {{draft.brand}} &nbsp;&nbsp; |&nbsp;&nbsp;<a class="link-secondary" href="{{draft.url}}">View Source Product</a></p>
           </div>
         </div>
       </td>
-      <td class="float-end">
-        <div>
+      <td >
+        <div class="float-end">
           <button type="button" class="btn btn-outline-secondary m-1" (click)="openModalWithComponent(draft)" >Edit</button>
           <button type="button" class="btn btn-outline-danger m-1"  (click)="remove(draft.id)">Remove</button>
           <button type="button" class="btn btn-outline-success m-1" (click)="import(draft)">Import</button>
         </div>
       </td>
+    </tr>
     </tbody>
 </table>
 
