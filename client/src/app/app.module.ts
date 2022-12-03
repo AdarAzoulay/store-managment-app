@@ -29,6 +29,8 @@ import { DraftsTableComponent } from './drafts-table/drafts-table.component';
 import { DraftsModalComponent } from './drafts-modal/drafts-modal.component';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductsComponent } from './products/products.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
     DraftsTableComponent,
     DraftsModalComponent,
     PhotoEditorComponent,
-   
+    ProductDetailComponent,
+    ProductsComponent
   ],
   imports: [
     BrowserModule,

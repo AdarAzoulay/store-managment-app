@@ -1,0 +1,68 @@
+<div>
+   <button routerLink="/products" class="btn btn-link bg text-secondary hover mb-2">
+    <i class="fa fa-angle-left fa-1x" aria-hidden="true"></i>
+    <span >&nbsp;&nbsp;&nbsp;Back</span>
+</button>
+</div>
+   <div *ngIf="product" class="d-flex align-items-center">
+        <img
+        src="{{product.photoUrl}}"
+        alt="{{product.title}}"
+        style="width: 55px; height: 55px"
+        class="rounded-circle"
+        />
+        <div class="ms-3">
+            <p  class="fw-bold mb-1 cut-text" title="{{product.title}}">{{product.title}}</p>
+            <p class="text-muted fs-6  mb-0">Supplier: {{product.url.includes("walmart") ? "Walmart US" : null}} &nbsp;&nbsp; |&nbsp;&nbsp; Seller: {{product.brand}} &nbsp;&nbsp; |&nbsp;&nbsp;<a class="link-secondary" href="{{product.url}}">View Source Product</a></p>
+            </div>
+        </div>
+        <hr>
+      <div class="row" *ngIf="product">
+    <tabset class="product-tabset ms-3">
+      <tab heading="Product">
+
+        <label class="my-2">Title</label>
+        <input [(ngModel)]="product.title" type="text"  class="form-control " disabled>
+
+        <label class="my-2">Brand</label>
+        <input [(ngModel)]="product.brand" type="text"  class="form-control " disabled>
+
+        <label class="my-2">Category</label>
+        <input [(ngModel)]="product.productCategory" type="text" class="form-control " disabled>
+
+        <div class="row">
+            <div class="col">
+                <label class="my-2">Buy Price</label>
+                <input [(ngModel)]="product.buyPrice" type="number" step="0.01" class="form-control " disabled>
+            </div>
+
+            <div class="col" >
+                <label class="my-2">Sell Price</label>
+                <input [(ngModel)]="product.sellPrice"  type="number" step="0.01" class="form-control " disabled>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="my-2">Shipping Policy</label>
+                <input type="text" class="form-control " disabled>
+            </div>
+
+            <div class="col" >
+                <label class="my-2">Return Policy</label>
+                <input type="text" class="form-control " disabled>
+            </div>
+        </div>
+      </tab>
+
+      <tab heading="Description">
+        <textarea rows="10" cols="140" [(ngModel)]="product.detailedDescription" readonly></textarea>
+      </tab>
+      <tab heading="Images">
+        <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
+    </tab>
+      <!-- <tab heading="Item Specifications">
+        <p>Item Specifications will go here</p>
+      </tab> -->
+    </tabset>
+  </div>

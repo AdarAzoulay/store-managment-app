@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductsComponent } from '../products/products.component';
 
 const routes: Routes = [
-    {path:'products',component: ProductsComponent, pathMatch:'full'},
+    // {path:'products',component: ProductsComponent, pathMatch:'full'},
   ];
   
 
@@ -13,8 +13,8 @@ const routes: Routes = [
   [CommonModule,
     RouterModule.forChild(routes) // these are child routes (not starting from the root path)],
   ],
-  declarations: [ProductsComponent],
-  exports: [RouterModule,ProductsComponent],
+  // declarations: [ProductsComponent],
+  // exports: [RouterModule,ProductsComponent],
   providers: [],
 })
 export class ProductsModule {}

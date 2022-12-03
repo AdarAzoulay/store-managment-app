@@ -11,13 +11,13 @@
           <img
           src="{{draft.photoUrl}}"
             (click)="openModalWithComponent(draft)"
-              alt=""
-              style="width: 55px; height: 55px"
+            alt="{{draft.title}}"
+            style="width: 55px; height: 55px"
               class="rounded-circle"
               />
           <div class="ms-3">
             <p style="max-width: 350px;" class="fw-bold mb-1 cut-text" title="{{draft.title}}">{{draft.title}}</p>
-            <p class="text-muted fs-6  mb-0">Supplier: {{draft.seller}} &nbsp;&nbsp; |&nbsp;&nbsp; Sellet: {{draft.brand}} &nbsp;&nbsp; |&nbsp;&nbsp;<a class="link-secondary" href="{{draft.url}}">View Source Product</a></p>
+            <p class="text-muted fs-6  mb-0">Supplier: {{draft.url.includes("walmart") ? "Walmart US" : null}} &nbsp;&nbsp; |&nbsp;&nbsp; Seller: {{draft.brand}} &nbsp;&nbsp; |&nbsp;&nbsp;<a class="link-secondary" href="{{draft.url}}">View Source Product</a></p>
           </div>
         </div>
       </td>

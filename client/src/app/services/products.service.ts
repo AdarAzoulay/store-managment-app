@@ -11,7 +11,7 @@ export class ProductsService {
 
   baseUrl = environment.apiUrl;
   drafts: Product[] = [];
-
+  products: Product[] = [];
   constructor(private http: HttpClient) {
   }
 
@@ -21,6 +21,14 @@ export class ProductsService {
     }
     return this.http.get<Product[]>(`${this.baseUrl}drafts`)
       .pipe(tap((drafts) => (this.drafts = drafts)));
+  }
+
+  getProducts(){
+    if (this.products.length > 0) {
+      return of(this.products); 
+    }
+    return this.http.get<Product[]>(`${this.baseUrl}products`)
+      .pipe(tap((products) => (this.products = products)));
   }
 
   getDraftById(id:number){

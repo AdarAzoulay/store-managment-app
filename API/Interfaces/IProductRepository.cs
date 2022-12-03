@@ -14,7 +14,7 @@ namespace API.Interfaces
         void Update(Product product);
         Task<bool> SaveAllAsync();
         void DeleteDraft(Product product);
-        Task<IEnumerable<Product>> GetProductsAsync();
+        Task<IEnumerable<ProductDto>> GetProductsAsync();
         Task<IEnumerable<ProductDto>> GetDraftsAsync();
         Task<IEnumerable<ProductDto>> ProductsByUsernameAsync(string username);
         Task<IEnumerable<ProductDto>> DraftsByUsernameAsync(string username);

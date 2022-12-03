@@ -21,6 +21,7 @@ namespace API.Entities
         public string Url { get; set; }
         public string ProductCategory { get; set; }
         public string DetailedDescription { get; set; }
+        // public DateTime UploadDate {get; set;}
         // public object ProductInfo { get; internal set; }
 
         public AppUser AppUser { get; set; }

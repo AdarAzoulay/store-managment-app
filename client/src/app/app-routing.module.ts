@@ -9,6 +9,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { OrdersComponent } from './orders/orders.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductsComponent } from './products/products.component';
 import { RegisterComponent } from './register/register.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -34,6 +35,7 @@ const routes: Routes = [
       {path:'dashboard',component: DashboardComponent},
       {path:'settings/:id',component: SettingsComponent},
       {path:'products',component: ProductsComponent},
+      {path:'products/:id',component: ProductDetailComponent},
       {path:'drafts',component: DraftsComponent},
       {path:'orders', component: OrdersComponent}
     ]

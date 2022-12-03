@@ -27,9 +27,10 @@ namespace API.Data
             .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync()
+        public async Task<IEnumerable<ProductDto>> GetProductsAsync()
         {
             return await _context.Products.Where(i => i.IsUploaded == true)
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
         }
 

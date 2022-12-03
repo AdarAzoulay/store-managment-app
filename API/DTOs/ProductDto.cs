@@ -20,5 +20,7 @@ namespace API.DTOs
         public string Url { get; set; }
         public string ProductCategory { get; set; }
         public string DetailedDescription { get; set; }
+        // public DateTime UploadDate {get; set;}
+
     }
 }
