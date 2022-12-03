@@ -1,4 +1,4 @@
-<table class="table align-middle mb-0 bg-white table-hover mt-4" *ngIf="drafts.length !== 0; else noDrafts">
+<table class="table align-middle mb-0 bg-white table-hover mt-4" *ngIf="drafts?.length !== 0; else noDrafts">
   <tbody *ngFor="let draft of drafts">
     <tr>
       <td style="max-width: 5px;">
@@ -31,9 +31,20 @@
     </tr>
     </tbody>
 </table>
+<div class="d-flex justify-content-center mt-3" *ngIf="pagination">
+  <pagination
+    [boundaryLinks]="true"
+    [totalItems]="pagination.totalItems"
+    [itemsPerPage]="pagination.itemsPerPage"
+    [(ngModel)]="pagination.currentPage"
+    (pageChanged)="pageChanged($event)"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;">
+</pagination>
+</div>
 
 <ng-template #noDrafts>
   <h1 style="text-align: center;">No Drafts availble for now...</h1>
-  <h1 style="text-align: center;">If you want to insert some new items please click the button below</h1>
-  <button>Add Draft</button>
 </ng-template>

@@ -3,6 +3,7 @@ import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { DraftsModalComponent } from '../drafts-modal/drafts-modal.component';
+import { Pagination } from '../models/pagination';
 import { Product } from '../models/Product';
 import { ProductsService } from '../services/products.service';
 
@@ -12,7 +13,10 @@ import { ProductsService } from '../services/products.service';
   styleUrls: ['./drafts-table.component.css'],
 })
 export class DraftsTableComponent {
-  drafts: Product[] = [];
+  drafts: Product[];
+  pagination: Pagination;
+  pageNumber: number = 1;
+  pageSize: number = 5;
   bsModalRef: any;
 
   constructor(
@@ -24,8 +28,9 @@ export class DraftsTableComponent {
     this.loadDrafts();
   }
   loadDrafts() {
-    this.productService.getDrafts().subscribe((res) => {
-      this.drafts = res;
+    this.productService.getDrafts(this.pageNumber, this.pageSize).subscribe((res) => {
+      this.drafts = res.result;
+      this.pagination = res.pagination;
       console.log(res)
     });
   }
@@ -58,4 +63,10 @@ export class DraftsTableComponent {
       this.toastr.success('Draft Deleted successfully');
     });
   }
+
+  pageChanged(event: any){
+    this.pageNumber = event.page;
+    this.loadDrafts();
+  }
+
 }

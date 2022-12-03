@@ -66,6 +66,7 @@ import { ProductsComponent } from './products/products.component';
     NgxSpinnerModule,
     ReactiveFormsModule,
     NgxGalleryModule,
+    
   ],
   providers: [
     {

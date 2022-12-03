@@ -5,6 +5,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {TabsModule } from 'ngx-bootstrap/tabs';
+import { PaginationModule } from "ngx-bootstrap/pagination";
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {TabsModule } from 'ngx-bootstrap/tabs';
         }),
         TooltipModule.forRoot(),
         ModalModule.forRoot(),
-        TabsModule.forRoot()
+        TabsModule.forRoot(),
+        PaginationModule.forRoot()
         
     ],
     exports: [
@@ -24,7 +26,8 @@ import {TabsModule } from 'ngx-bootstrap/tabs';
         ToastrModule,
         TooltipModule,
         ModalModule,
-        TabsModule
+        TabsModule,
+        PaginationModule
     ],
     declarations: [],
     providers: [],

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Pagination } from '../models/pagination';
 import { Product } from '../models/Product';
 import { ProductsService } from '../services/products.service';
 
@@ -9,7 +10,10 @@ import { ProductsService } from '../services/products.service';
   styleUrls: ['./products.component.css'],
 })
 export class ProductsComponent {
-  products : Product[] = [];
+  products : Product[];
+  pagination: Pagination;
+  pageNumber: number = 1;
+  pageSize: number = 5;
 
   constructor(
     private productService: ProductsService,
@@ -20,10 +24,16 @@ export class ProductsComponent {
     this.loadProducts();
   }
   loadProducts() {
-    this.productService.getProducts().subscribe((res) => {
-      this.products = res;
+    this.productService.getProducts(this.pageNumber, this.pageSize).subscribe((res) => {
+      this.products = res.result;
+      this.pagination = res.pagination;
       console.log(res);
     });
+  }
+
+  pageChanged(event: any){
+    this.pageNumber = event.page;
+    this.loadProducts();
   }
 
   toDraft(draft: Product) {

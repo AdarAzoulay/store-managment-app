@@ -6,6 +6,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -27,16 +29,26 @@ namespace API.Controllers
             _productRepository = productRepository;
         }
         [HttpGet("products")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<PagedList<Product>>> GetProducts([FromQuery] UserParams userParams)
         {
-            var products = await _productRepository.GetProductsAsync();
+            var products = await _productRepository.GetProductsAsync(userParams);
+                Response.AddPaginationHeader(
+                products.CurrentPage, 
+                products.PageSize, 
+                products.TotalCount, 
+                products.TotalPages);
             return Ok(products);
         }
 
         [HttpGet("drafts")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetDrafts()
+        public async Task<ActionResult<PagedList<Product>>> GetDrafts([FromQuery] UserParams userParams)
         {
-            var drafts = await _productRepository.GetDraftsAsync();
+            var drafts = await _productRepository.GetDraftsAsync(userParams);
+                Response.AddPaginationHeader(
+                drafts.CurrentPage, 
+                drafts.PageSize, 
+                drafts.TotalCount, 
+                drafts.TotalPages);
             return Ok(drafts);
         }
 

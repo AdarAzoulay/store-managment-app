@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 
 namespace API.Interfaces
 {
@@ -14,8 +15,8 @@ namespace API.Interfaces
         void Update(Product product);
         Task<bool> SaveAllAsync();
         void DeleteDraft(Product product);
-        Task<IEnumerable<ProductDto>> GetProductsAsync();
-        Task<IEnumerable<ProductDto>> GetDraftsAsync();
+        Task<PagedList<ProductDto>> GetProductsAsync(UserParams userParams);
+        Task<PagedList<ProductDto>> GetDraftsAsync(UserParams userParams);
         Task<IEnumerable<ProductDto>> ProductsByUsernameAsync(string username);
         Task<IEnumerable<ProductDto>> DraftsByUsernameAsync(string username);
         Task<Product> GetSpesificProductAsync(int id);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -20,18 +21,24 @@ namespace API.Data
             _mapper = mapper;
             _context = context;
         }
-        public async Task<IEnumerable<ProductDto>> GetDraftsAsync()
+        public async Task<PagedList<ProductDto>> GetDraftsAsync(UserParams userParams)
         {
-            return await _context.Products.Where(i => i.IsUploaded == false)
+            var query = _context.Products.Where(i => i.IsUploaded == false)
             .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+            .AsNoTracking();
+
+            return await PagedList<ProductDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
+
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProductsAsync()
+        public async Task<PagedList<ProductDto>> GetProductsAsync(UserParams userParams)
         {
-            return await _context.Products.Where(i => i.IsUploaded == true)
+            var query = _context.Products.Where(i => i.IsUploaded == true)
             .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+            .AsNoTracking();
+
+            return await PagedList<ProductDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
+
         }
 
         public Task<IEnumerable<ProductDto>> DraftsByUsernameAsync(string username)
@@ -43,7 +50,7 @@ namespace API.Data
         public async Task<Product> GetSpesificProductAsync(int id)
         {
             return await _context.Products
-            .Include(x=>x.Photos)
+            .Include(x => x.Photos)
             .Where(x => x.Id == id)
             .SingleOrDefaultAsync();
         }
