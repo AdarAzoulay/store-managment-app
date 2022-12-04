@@ -23,21 +23,39 @@ namespace API.Data
         }
         public async Task<PagedList<ProductDto>> GetDraftsAsync(UserParams userParams)
         {
-            var query = _context.Products.Where(i => i.IsUploaded == false)
-            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-            .AsNoTracking();
+            var query = _context.Products.AsQueryable();
+            query = query.Where(i => i.IsUploaded == false);
 
-            return await PagedList<ProductDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
+            return await PagedList<ProductDto>.CreateAsync(
+            query.ProjectTo<ProductDto>(_mapper.ConfigurationProvider).AsNoTracking(),
+            userParams.PageNumber, userParams.PageSize);
 
         }
 
         public async Task<PagedList<ProductDto>> GetProductsAsync(UserParams userParams)
         {
-            var query = _context.Products.Where(i => i.IsUploaded == true)
-            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
-            .AsNoTracking();
+            var query = _context.Products.AsQueryable();
+            query = query.Where(i => i.IsUploaded == true);
 
-            return await PagedList<ProductDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
+            query = query.Where(i => i.BuyPrice >= userParams.MinBuyPrice && i.BuyPrice <= userParams.MaxBuyPrice);  
+            query = query.Where(i => i.SellPrice >= userParams.MinSellPrice && i.SellPrice <= userParams.MaxSellPrice);  
+            query = query.Where(i => i.Profit>= userParams.MinProfit && i.Profit <= userParams.MaxProfit);  
+            query = query.Where(i => userParams.SoldCount >= 0);  
+
+            query = userParams.OrderBy switch
+            {
+                "buyPrice" => query.OrderByDescending(u => u.BuyPrice),
+                "sellPrice" => query.OrderByDescending(u => u.SellPrice),
+                "profit" => query.OrderByDescending(u => u.Profit),
+                "d" => query.OrderBy(u => u.Profit),
+                "a" => query.OrderBy(u => u.BuyPrice),
+                "quantitySold" => query.OrderByDescending(u => u.QuantitySold),
+                _ => query.OrderByDescending(u => u.Uploaded),
+            };
+
+            return await PagedList<ProductDto>.CreateAsync(
+            query.ProjectTo<ProductDto>(_mapper.ConfigurationProvider).AsNoTracking(),
+            userParams.PageNumber, userParams.PageSize);
 
         }
 
@@ -54,6 +72,16 @@ namespace API.Data
             .Where(x => x.Id == id)
             .SingleOrDefaultAsync();
         }
+
+        public async Task<ProductDto> GetSpesificProductDtoAsync(int id)
+        {
+            return await _context.Products
+            .Include(x => x.Photos)
+            .Where(x => x.Id == id)
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
+            .SingleOrDefaultAsync();
+        }
+
         public async Task<ProductDto> GetSpesificDraftAsync(int id)
         {
             return await _context.Products

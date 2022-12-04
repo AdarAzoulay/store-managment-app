@@ -8,6 +8,9 @@ export interface Product {
     itemId:string;
     photos?: any;
     seller: string;
+    quantitySold: number;
+    profit: number;
+    uploaded: string;
     photoUrl:string;
     url: string;
     productCategory: string;

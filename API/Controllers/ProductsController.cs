@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text.Json;
@@ -53,9 +54,9 @@ namespace API.Controllers
         }
 
         [HttpGet("products/{id:int}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
-            var rtn = await _productRepository.GetSpesificProductAsync(id);
+            var rtn = await _productRepository.GetSpesificProductDtoAsync(id);
             return rtn;
         }
 
@@ -84,6 +85,9 @@ namespace API.Controllers
             product.IsUploaded = productUpdateDto.IsUploaded;
             product.Brand = productUpdateDto.Brand;
             product.SellPrice = productUpdateDto.SellPrice;
+            product.Uploaded = DateTime.Now.ToString("dd MMMM, yyyy",new CultureInfo("en-US"));
+            product.QuantitySold = 0;
+            product.Profit = product.SellPrice - product.BuyPrice;
 
             _productRepository.Update(product);
             if (await _productRepository.SaveAllAsync())
@@ -94,19 +98,22 @@ namespace API.Controllers
             return BadRequest("Failed to update order");
         }
 
-        [HttpPut("upload-draft")]
-        public async Task<ActionResult> UploadDraft(ProductUpdateDto productUpdateDto)
-        {
-            var product = await _productRepository.GetSpesificProductAsync(productUpdateDto.Id);
-            product.IsUploaded = productUpdateDto.IsUploaded;
-            _productRepository.Update(product);
-            if (await _productRepository.SaveAllAsync())
-            {
-                return NoContent();
-            }
+        // [HttpPut("upload-draft")]
+        // public async Task<ActionResult> UploadDraft(ProductUpdateDto productUpdateDto)
+        // {
+        //     var product = await _productRepository.GetSpesificProductAsync(productUpdateDto.Id);
+        //     product.IsUploaded = productUpdateDto.IsUploaded;
+        //     product.Uploaded = DateTime.Now.ToString("dd MMMM, yyyy",new CultureInfo("en-US"));
+        //     product.QuantitySold = 0;
+        //     product.Profit = product.SellPrice = product.BuyPrice;
+        //     _productRepository.Update(product);
+        //     if (await _productRepository.SaveAllAsync())
+        //     {
+        //         return NoContent();
+        //     }
 
-            return BadRequest("Failed to upload order");
-        }
+        //     return BadRequest("Failed to upload order");
+        // }
 
         [HttpDelete("delete-draft/{id}")]
         public async Task<ActionResult> DeleteDraft(int id)
@@ -126,7 +133,6 @@ namespace API.Controllers
         [HttpPost("add-draft")]
         public async Task<ActionResult<ProductDto>> CreateDraft(ScrapeheroCloud scrapeheroCloud)
         {
-            //add check if products exist by the product ID.
             if (await _productRepository.ProductExist(scrapeheroCloud.ProductId)) return BadRequest("Already exists in Draft/Products");
             var id = User.Claims.Where(x => x.Type == "id").FirstOrDefault()?.Value;
             string jsonString = client

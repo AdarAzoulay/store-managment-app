@@ -31,7 +31,7 @@
     </tr>
     </tbody>
 </table>
-<div class="d-flex justify-content-center mt-3" *ngIf="pagination">
+<div class="d-flex justify-content-center mt-3" *ngIf="pagination && drafts?.length !== 0; else null">
   <pagination
     [boundaryLinks]="true"
     [totalItems]="pagination.totalItems"

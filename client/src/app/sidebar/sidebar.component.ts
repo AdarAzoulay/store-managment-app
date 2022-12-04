@@ -43,7 +43,7 @@ export class SidebarComponent {
       this.modalRef?.hide();
       form.reset();
     },(error)=>{
-      this.modalRef?.hide();
+      // this.modalRef?.hide();
       form.reset();
     });
   }

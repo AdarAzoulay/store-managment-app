@@ -6,6 +6,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginationModule } from "ngx-bootstrap/pagination";
+import { ButtonsModule } from "ngx-bootstrap/buttons";
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { PaginationModule } from "ngx-bootstrap/pagination";
         TooltipModule.forRoot(),
         ModalModule.forRoot(),
         TabsModule.forRoot(),
-        PaginationModule.forRoot()
+        PaginationModule.forRoot(),
+        ButtonsModule.forRoot()
         
     ],
     exports: [
@@ -27,7 +29,8 @@ import { PaginationModule } from "ngx-bootstrap/pagination";
         TooltipModule,
         ModalModule,
         TabsModule,
-        PaginationModule
+        PaginationModule,
+        ButtonsModule
     ],
     declarations: [],
     providers: [],

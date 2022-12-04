@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { DraftsModalComponent } from '../drafts-modal/drafts-modal.component';
 import { Pagination } from '../models/pagination';
 import { Product } from '../models/Product';
+import { UserParams } from '../models/userParams';
 import { ProductsService } from '../services/products.service';
 
 @Component({
@@ -15,20 +16,22 @@ import { ProductsService } from '../services/products.service';
 export class DraftsTableComponent {
   drafts: Product[];
   pagination: Pagination;
-  pageNumber: number = 1;
-  pageSize: number = 5;
+  userParams: UserParams;
   bsModalRef: any;
 
   constructor(
     private productService: ProductsService,
     private toastr: ToastrService,
     private modalService: BsModalService
-  ) {}
+  ) {this.userParams = new UserParams}
+
   ngOnInit(): void {
     this.loadDrafts();
   }
+  
   loadDrafts() {
-    this.productService.getDrafts(this.pageNumber, this.pageSize).subscribe((res) => {
+    this.productService.getDrafts(this.userParams).subscribe((res) => {
+      console.log(this.userParams)
       this.drafts = res.result;
       this.pagination = res.pagination;
       console.log(res)
@@ -48,6 +51,7 @@ export class DraftsTableComponent {
   }
 
   import(draft: Product) {
+    console.log(this.drafts)
     draft.isUploaded = true;
     this.productService.updateDraft(draft).subscribe(() => {
       this.drafts.splice(
@@ -65,7 +69,7 @@ export class DraftsTableComponent {
   }
 
   pageChanged(event: any){
-    this.pageNumber = event.page;
+    this.userParams.pageNumber = event.page;
     this.loadDrafts();
   }
 

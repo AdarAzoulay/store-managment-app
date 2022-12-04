@@ -54,7 +54,7 @@ import { ProductsComponent } from './products/products.component';
     DraftsModalComponent,
     PhotoEditorComponent,
     ProductDetailComponent,
-    ProductsComponent
+    ProductsComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,8 +12,18 @@ namespace API.Helpers
         private int _pageSize = 10; // default page size
         public int PageSize
         {
-            get => _pageSize; 
-            set => _pageSize = Math.Min(MaxPageSize, value); 
+            get => _pageSize;
+            set => _pageSize = Math.Min(MaxPageSize, value);
         }
+
+        public int MinBuyPrice { get; set; } = 0;
+        public int MaxBuyPrice { get; set; } = int.MaxValue;
+        public int MinSellPrice { get; set; } = 0;
+        public int MaxSellPrice { get; set; } = int.MaxValue;
+        public int MinProfit { get; set; } = 0;
+        public int MaxProfit { get; set; } = int.MaxValue;
+        public int SoldCount { get; set; } = 0;
+
+        public string OrderBy { get; set; } = "uploaded";
     }
 }

@@ -6,70 +6,58 @@ import { User } from '../models/user';
 import { AccountService } from './account.service';
 import { Product, updatePhoto } from '../models/Product';
 import { PaginatedResult } from '../models/pagination';
+import { UserParams } from '../models/userParams';
+import { PaginationService } from './pagination.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
   baseUrl = environment.apiUrl;
   drafts: Product[] ;
   products: Product[] ;
-  paginatedResult: PaginatedResult<Product[]> = new PaginatedResult<Product[]>();
+  cacheKey : string;
+  productCache = new Map<string, PaginatedResult<Product[]>>();
+  draftCache = new Map<string, PaginatedResult<Product[]>>();
 
-  constructor(private http: HttpClient) {}
 
-  getDrafts(page?: number, itemsPerPage?: number) {
-    let params = new HttpParams();
+  constructor(private http: HttpClient, private paginationSerivce: PaginationService) {}
 
-    if (page != null && itemsPerPage != null) {
-      params = params.append('pageNumber', page.toString());
-      params = params.append('pageSize', itemsPerPage.toString());
-    }
+  getDrafts(userParams : UserParams) {
+    let params = this.paginationSerivce.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
 
-    // if (this.drafts.length > 0) {
-    //   return of(this.drafts);
-    // }
-    return this.http.get<Product[]>(`${this.baseUrl}drafts`,
-    {
-      observe:'response', 
-      params
-    }).pipe(
-      map(response => {
-        this.paginatedResult.result = response.body as Product[];
-        if(response.headers.get('Pagination') !== null) {
-          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination') || '');
-        }
-        return this.paginatedResult;
-      })
-      );
+    const cacheKey = Object.values(userParams).join('-');
+    this.cacheKey = cacheKey;
+    const response = this.draftCache.get(cacheKey);
+    if(response) return of(response);
 
-      // .pipe(tap((drafts) => (this.drafts = drafts)));
+    return this.paginationSerivce.getPaginatedResult<Product[]>(`${this.baseUrl}drafts`,params)
+    .pipe(
+      tap(res =>this.draftCache.set(cacheKey, res))
+    );
   }
 
-  getProducts(page?: number, itemsPerPage?: number) {
-    let params = new HttpParams();
+  getProducts(userParams : UserParams) {
 
-    if (page != null && itemsPerPage != null) {
-      params = params.append('pageNumber', page.toString());
-      params = params.append('pageSize', itemsPerPage.toString());
-    }
+    const cacheKey = Object.values(userParams).join('-');
+    this.cacheKey = cacheKey;
+    const response = this.productCache.get(cacheKey);
+    if(response) return of(response);
 
-    // if (this.products.length > 0) {
-    //   return of(this.products);
-    // }
-    return this.http.get<Product[]>(`${this.baseUrl}products`,
-    {
-      observe:'response',
-      params
-    }).pipe(
-      map(response => {
-        this.paginatedResult.result = response.body as Product[];
-        if(response.headers.get('Pagination') !== null) {
-          this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination') || '');
-        }
-        return this.paginatedResult;
-      })
-      );
+    let params = this.paginationSerivce.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
 
-      // .pipe(tap((products) => (this.products = products)));
+    params = params.append('minBuyPrice', userParams.minBuyPrice.toString());
+    params = params.append('maxBuyPrice', userParams.maxBuyPrice.toString());
+    params = params.append('minSellPrice', userParams.minSellPrice.toString());
+    params = params.append('maxSellPrice', userParams.maxSellPrice.toString());
+    params = params.append('minProfit', userParams.minProfit.toString());
+    params = params.append('maxProfit', userParams.maxProfit.toString());
+    params = params.append('soldCount', userParams.soldCount.toString());
+    params = params.append('orderBy', userParams.orderBy);
+
+
+    return this.paginationSerivce.getPaginatedResult<Product[]>(`${this.baseUrl}products`,params)
+    .pipe(
+      tap(res =>this.productCache.set(cacheKey, res))
+    );
   }
 
   getDraftById(id: number) {
@@ -79,8 +67,8 @@ export class ProductsService {
   updateDraft(draft: Product) {
     return this.http.put(`${this.baseUrl}update-draft`, draft).pipe(
       tap(() => {
-        const index1 = this.drafts.indexOf(draft);
-        this.drafts[index1] == draft;
+        const index1 = this.draftCache.get(this.cacheKey)?.result.indexOf(draft);
+        this.draftCache.get(this.cacheKey)?.result[index1!] == draft;
       })
     );
   }
@@ -99,10 +87,9 @@ export class ProductsService {
   }
 
   createDraft(productId: string) {
-    const createDraft = { productId: productId };
-    return this.http
-      .post(this.baseUrl + 'add-draft', createDraft)
-      .pipe(tap((draft: any) => this.drafts.push(draft)));
+    const createDraft = { productId };
+    return this.http.post(this.baseUrl + 'add-draft', createDraft)
+      .pipe(tap((draft: any) => this.draftCache.get(this.cacheKey)?.result.push(draft)));
   }
 
   setMainPhoto(updatePhoto: updatePhoto) {
@@ -114,4 +101,5 @@ export class ProductsService {
       body: updatePhoto,
     });
   }
+
 }

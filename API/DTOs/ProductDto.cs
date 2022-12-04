@@ -15,12 +15,14 @@ namespace API.DTOs
         public float BuyPrice { get; set; }
         public float SellPrice { get; set; }
         public string Seller { get; set; }
+        public int QuantitySold { get; set; }
+        public float Profit { get; set; }
+        public string Uploaded { get; set; }
         public ICollection<PhotoDto> Photos { get; set; }
         public string PhotoUrl { get; set; }
         public string Url { get; set; }
         public string ProductCategory { get; set; }
         public string DetailedDescription { get; set; }
-        // public DateTime UploadDate {get; set;}
 
     }
 }

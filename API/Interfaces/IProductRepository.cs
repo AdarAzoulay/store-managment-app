@@ -20,6 +20,7 @@ namespace API.Interfaces
         Task<IEnumerable<ProductDto>> ProductsByUsernameAsync(string username);
         Task<IEnumerable<ProductDto>> DraftsByUsernameAsync(string username);
         Task<Product> GetSpesificProductAsync(int id);
+        Task<ProductDto> GetSpesificProductDtoAsync(int id);
         Task<ProductDto> GetSpesificDraftAsync(int id);
          Task<bool> ProductExist(string productId);
 
