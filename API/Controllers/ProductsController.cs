@@ -154,8 +154,9 @@ namespace API.Controllers
                 DetailedDescription = value.detailed_description,
                 AppUserId = int.Parse(id),
                 ItemId = value.item_id,
-                Seller = value.seller
+                Seller = value.seller,
             };
+                draft.SellPrice = (float)(Math.Round(draft.BuyPrice * 1.18,2));
 
             _productRepository.AddDraft(draft);
             if (!(await _productRepository.SaveAllAsync())) return BadRequest("Failed to Craete Draft");

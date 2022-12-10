@@ -39,9 +39,12 @@ export class DraftsTableComponent {
   }
 
   openModalWithComponent(draft: Product) {
+    let copy = {...draft}
+
     const initialState: ModalOptions = {
       initialState: {
         customDraft: draft,
+        copy : copy
       } as Partial<Object>,
     };
     this.bsModalRef = this.modalService.show(

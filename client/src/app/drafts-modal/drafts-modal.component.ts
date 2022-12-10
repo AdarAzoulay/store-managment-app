@@ -13,7 +13,7 @@ import { ProductsService } from '../services/products.service';
 export class DraftsModalComponent {
   draft:Product;
   customDraft: Product;
-  
+  copy : Product;
 
   constructor(private productService : ProductsService,private toastr: ToastrService,public bsModalRef: BsModalRef){}
 
@@ -23,6 +23,11 @@ export class DraftsModalComponent {
 
   cancel(){
     this.bsModalRef.hide();
+    this.customDraft.title = this.copy.title;
+    this.customDraft.sellPrice = this.copy.sellPrice
+    this.customDraft.productCategory = this.copy.productCategory
+    this.customDraft.detailedDescription = this.copy.detailedDescription
+    this.customDraft.brand = this.copy.brand
   }
 
   updateDraft(){
