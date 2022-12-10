@@ -1,3 +1,4 @@
+<h3 class="mb-3" *ngIf="drafts?.length !== 0; else null">Drafts ({{drafts?.length}})</h3>
 <table class="table align-middle mb-0 bg-white table-hover mt-4" *ngIf="drafts?.length !== 0; else noDrafts">
   <tbody *ngFor="let draft of drafts">
     <tr>

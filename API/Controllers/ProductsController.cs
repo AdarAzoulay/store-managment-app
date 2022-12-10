@@ -85,10 +85,12 @@ namespace API.Controllers
             product.IsUploaded = productUpdateDto.IsUploaded;
             product.Brand = productUpdateDto.Brand;
             product.SellPrice = productUpdateDto.SellPrice;
-            product.Uploaded = DateTime.Now.ToString("dd MMMM, yyyy",new CultureInfo("en-US"));
             product.QuantitySold = 0;
             product.Profit = product.SellPrice - product.BuyPrice;
 
+            if (product.IsUploaded == true) product.Uploaded = DateTime.Now.ToString("dd MMM, yyyy",new CultureInfo("en-US"));
+            else product.Uploaded = "";
+                
             _productRepository.Update(product);
             if (await _productRepository.SaveAllAsync())
             {

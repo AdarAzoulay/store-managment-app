@@ -53,7 +53,7 @@ export class DraftsTableComponent {
   import(draft: Product) {
     console.log(this.drafts)
     draft.isUploaded = true;
-    this.productService.updateDraft(draft).subscribe(() => {
+    this.productService.toProducts(draft).subscribe(() => {
       this.drafts.splice(
         this.drafts.findIndex((m) => m.id === draft.id),1);
       this.toastr.success('Draft uploaded successfully');

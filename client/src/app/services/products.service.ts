@@ -12,7 +12,7 @@ import { PaginationService } from './pagination.service';
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
   baseUrl = environment.apiUrl;
-  drafts: Product[] ;
+  drafts: number;
   products: Product[] ;
   cacheKey : string;
   productCache = new Map<string, PaginatedResult<Product[]>>();
@@ -36,12 +36,10 @@ export class ProductsService {
   }
 
   getProducts(userParams : UserParams) {
-
     const cacheKey = Object.values(userParams).join('-');
     this.cacheKey = cacheKey;
     const response = this.productCache.get(cacheKey);
     if(response) return of(response);
-
     let params = this.paginationSerivce.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
 
     params = params.append('minBuyPrice', userParams.minBuyPrice.toString());
@@ -64,6 +62,10 @@ export class ProductsService {
     return this.http.get<Product>(`${this.baseUrl}drafts/${id}`);
   }
 
+  getProductById(id: number) {
+    return this.http.get<Product>(`${this.baseUrl}products/${id}`);
+  }
+
   updateDraft(draft: Product) {
     return this.http.put(`${this.baseUrl}update-draft`, draft).pipe(
       tap(() => {
@@ -73,14 +75,22 @@ export class ProductsService {
     );
   }
 
-  // uploadDraft(draft: Product) {
-  //   return this.http.put(`${this.baseUrl}update-draft`, draft).pipe(
-  //     tap(() => {
-  //       const index1 = this.drafts.indexOf(draft);
-  //       this.drafts[index1] == draft;
-  //     })
-  //   );
-  // }
+  toProducts(draft: Product) {
+    return this.http.put(`${this.baseUrl}update-draft`, draft).pipe(
+      tap(() => {
+        this.productCache.clear(); //To force getProducts to render
+      })
+    );
+  }
+
+  toDrafts(draft: Product) {
+    return this.http.put(`${this.baseUrl}update-draft`, draft).pipe(
+      tap(() => {
+        this.draftCache.clear(); //To force getDrafts to render
+      })
+    );
+  }
+
 
   deleteDraft(id: number) {
     return this.http.delete(this.baseUrl + 'delete-draft/' + id);

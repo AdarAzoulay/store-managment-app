@@ -47,7 +47,7 @@ export class ProductsComponent {
 
   toDraft(draft: Product) {
     draft.isUploaded = false;
-    this.productService.updateDraft(draft).subscribe(() => {
+    this.productService.toDrafts(draft).subscribe(() => {
       this.products.splice(
         this.products.findIndex((m) => m.id === draft.id),1);
       this.toastr.success('Product Back To Drafts..');

@@ -1,3 +1,5 @@
+<div *ngIf="products?.length !== 0; else null">
+  <h3 class="mb-3" >Products ({{products?.length}})</h3>
 <div class="btn-group" dropdown >
   <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"aria-controls="dropdown-basic">
     Add Filter <span class="caret"></span>
@@ -30,7 +32,7 @@
     </li>
   </ul>
 </div>
-
+</div>
 
 <table class="table align-middle mb-0 bg-white table-hover mt-4" *ngIf="products?.length !== 0; else noDrafts">
 
@@ -39,7 +41,7 @@
           <th></th>
           <th>Name</th>
           <th>Uploaded</th>
-          <th>Uploaded to</th>
+          <!-- <th>Store</th> -->
           <th >Price</th>
           <th >Profit</th>
           <th >item ID</th>
@@ -71,9 +73,9 @@
         <td>
             {{draft.uploaded}}
         </td>
-        <td>
-            Username
-        </td>
+        <!-- <td>
+            Store Name
+        </td> -->
         <td>
             <div class="mb-1">
                 <span class="bg-secondary text-white" style="display: inline-block; width: 30px; ">Buy</span> ${{draft.buyPrice.toFixed(2)}}
@@ -83,7 +85,7 @@
             </div>
         </td>
         <td>
-            <span>${{draft.profit}}</span>
+            <span>${{draft.profit.toFixed(2)}}</span>
         </td>
         <td>
             <div class="mb-1">
