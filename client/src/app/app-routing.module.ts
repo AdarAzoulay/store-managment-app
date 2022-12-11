@@ -38,7 +38,7 @@ const routes: Routes = [
     children:[
       {path:'',component: HomeComponent},
       {path:'dashboard',component: DashboardComponent},
-      {path:'settings/:id',component: SettingsComponent},
+      {path:'settings',component: SettingsComponent},
       {path:'products',component: ProductsComponent},
       {path:'products/:id',component: ProductDetailComponent},
       {path:'drafts',component: DraftsComponent},

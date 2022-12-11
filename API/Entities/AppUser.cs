@@ -14,6 +14,7 @@ namespace API.Entities
         public DateTime Created { get; set;} = DateTime.Now;
         public DateTime LastActive { get; set; } = DateTime.Now;
         public string Country {get;set;}
+        public double AdditionalProfit { get; set; }=  1.18;
         
         public ICollection<Order> Orders {get;set;}
         public ICollection<Product> Products {get;set;}

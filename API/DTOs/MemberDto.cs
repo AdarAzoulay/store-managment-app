@@ -12,6 +12,8 @@ namespace API.DTOs
         public DateTime Created { get; set; } 
         public DateTime LastActive { get; set; } 
         public string Country { get; set; }
+        public double AdditionalProfit { get; set; }
+
         public ICollection<OrderDto> Orders { get; set; }
         public ICollection<ProductDto> Products { get; set; }
 

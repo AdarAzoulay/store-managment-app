@@ -6,6 +6,7 @@ export interface Member {
     created:    Date;
     lastActive: Date;
     country:    string;
+    additionalProfit : number;
     orders:     Order[];
     products:   any[];
 }

@@ -24,8 +24,10 @@ namespace API.Controllers
         WebClient client = new WebClient();
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-        public ProductsController(IProductRepository productRepository, IMapper mapper)
+        private readonly IUserRepository _userRepository;
+        public ProductsController(IProductRepository productRepository, IMapper mapper, IUserRepository userRepository)
         {
+            _userRepository = userRepository;
             _mapper = mapper;
             _productRepository = productRepository;
         }
@@ -156,7 +158,9 @@ namespace API.Controllers
                 ItemId = value.item_id,
                 Seller = value.seller,
             };
-                draft.SellPrice = (float)(Math.Round(draft.BuyPrice * 1.18,2));
+            
+            var user = await _userRepository.GetUserByIdAsync(int.Parse(id));
+                draft.SellPrice = (float)(Math.Round(draft.BuyPrice * user.AdditionalProfit,2));
 
             _productRepository.AddDraft(draft);
             if (!(await _productRepository.SaveAllAsync())) return BadRequest("Failed to Craete Draft");

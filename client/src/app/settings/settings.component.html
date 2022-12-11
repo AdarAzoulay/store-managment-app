@@ -1,1 +1,78 @@
-<p>settings works!</p>
+<tabset *ngIf="member">
+  <tab heading="Supplier Settings">
+    <div class="d-flex mt-4 ms-2">
+        <div style="width: 25%;">
+            <div>Select Store</div>
+            <select class="form-select w-75" aria-label="Default select example" disabled>
+                <option selected value="Melody">Melody</option>
+                <!-- <option value="1">One</option> -->
+              </select>
+
+              <select #val class="form-select w-75 mt-3" multiple aria-label="multiple select example">
+                <option selected value="Walmart">Walmart</option>
+                <option value="Home Depot">Home Depot</option>
+              </select>
+              <hr class="w-75">
+        </div>
+        <div class="flex-fill shadow p3 bg-body rounded scroller">
+            <tabset>
+                <tab heading="Lister">
+                    <div>{{val.value}}</div>
+                    <label for="title" class="m-2">Default Product Quantity</label>
+                    <input   type="text" name="title" class="form-control mx-2">
+        
+                    <div class="d-flex flex-row justify-content-between">
+                        <div style="width: 300px;">
+                            <label for="brand" class="m-2">Default Item Country</label>
+                            <input  type="text" name="brand" class="form-control mx-2">
+                        </div>
+            
+                        <div class="mx-2" style="width: 300px;">
+                            <label for="productCategory" class="m-2">Default Zipcode</label>
+                            <input  type="text" name="productCategory" class="form-control mx-2">
+                        </div>
+                    </div>
+        
+                    <div class="d-flex flex-row justify-content-between">
+                        <div style="width: 300px;">
+                            <label for="buyPrice" class="m-2">Shipping Methods</label>
+                            <input  type="number" step="0.01" name="buyPrice" class="form-control mx-2" disabled>
+                        </div>
+            
+                        <div class="mx-2" style="width: 300px;">
+                            <label for="sellPrice" class="m-2">Default Template</label>
+                            <input  type="number" step="0.01" name="sellPrice" class="form-control mx-2" >
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row justify-content-between">
+                        <div style="width: 300px;">
+                            <label for="buyPrice" class="m-2">Shipping Methods</label>
+                            <input  type="number" step="0.01" name="buyPrice" class="form-control mx-2" disabled>
+                        </div>
+            
+                        <div class="mx-2" style="width: 300px;">
+                            <label for="sellPrice" class="m-2">Default Template</label>
+                            <input  type="number" step="0.01" name="sellPrice" class="form-control mx-2" >
+                        </div>
+                    </div>
+                  </tab>
+                  <tab heading="Pricing">
+                    <form #editForm="ngForm" (ngSubmit)="updateMember()" id="editForm" >
+                    <div class="mx-2" style="width: 300px;">
+                        <label for="additionalProfit" class="m-2">Additional Profit in %</label>
+                        <input [(ngModel)]="member.additionalProfit" type="number" step="0.01" name="additionalProfit" class="form-control mx-2" >
+                    </div>
+                    <button [disabled]="editForm.pristine" type="submit" form="editForm" class="btn btn-success m-3">Save Changes</button>
+                </form>
+                  </tab>
+            </tabset>
+        </div>
+        
+    </div>
+  </tab>
+
+  <tab heading="Account Settings">
+    <div>Update Password</div>
+  </tab>
+
+</tabset>

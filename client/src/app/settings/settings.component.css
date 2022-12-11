@@ -1,0 +1,17 @@
+.scroller {
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 350px;
+    max-height: 450px;
+}
+
+::ng-deep .nav-tabs{
+    padding: 20px;
+    /* position: sticky;
+    top: 0; */
+
+}
+
+::ng-deep .tab-content{
+    padding: 20px;
+}

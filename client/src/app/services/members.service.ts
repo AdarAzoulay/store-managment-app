@@ -3,13 +3,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Member } from '../models/member';
 import { PaginatedResult } from '../models/pagination';
-import { map } from 'rxjs';
+import { map, of, tap } from 'rxjs';
 import { UserParams } from '../models/userParams';
 
 @Injectable({ providedIn: 'root' })
 export class MembersService {
   baseUrl = environment.apiUrl;
   paginatedResult: PaginatedResult<Member[]> = new PaginatedResult<Member[]>();
+  member : Member;
 
 
   constructor(private http: HttpClient) {}
@@ -20,10 +21,18 @@ export class MembersService {
   }
   
   getMember(username: string) {
-    return this.http.get<Member>(`${this.baseUrl}users/${username}`);
+    if(this.member) return of(this.member)
+    return this.http.get<Member>(`${this.baseUrl}users/${username}`).pipe(tap(res=>{
+      console.log(res)
+      this.member = res;
+    }));
   }
 
-  
+  updateMember(member: Member) {
+    return this.http.put(`${this.baseUrl}users`, member);
+  }
+
+
   private getPaginatedResult<T>(url:string, params: HttpParams) {
     const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
     return this.http.get<T>(url,

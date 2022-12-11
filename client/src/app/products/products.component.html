@@ -41,7 +41,7 @@
 
   <div *ngIf="products?.length !== 0; else null">
   <input type="checkbox" class="mt-4" name="list_name" [checked]="count==0 ? false : true" (change)="checkUncheckAll($event)"/> <strong>&nbsp;&nbsp;&nbsp;{{count}} Result Selected</strong>
-  <button class="btn btn-link text-decoration-none ms-4" (click)="removeSelected()" [disabled]="count==0 ? true :false"><i class="fa fa-trash-o" aria-hidden="true"></i>Bulk Delete</button>
+  <button class="btn btn-link text-decoration-none ms-4" (click)="openModal(confirm)"  [disabled]="count==0 ? true :false"><i class="fa fa-trash-o" aria-hidden="true"></i>Bulk Delete</button>
   </div>
 
 <table class="table align-middle mb-0 bg-white table-hover mt-4" *ngIf="products?.length !== 0; else noDrafts">
@@ -219,4 +219,19 @@
         </form>
       </div>
     </div>
+  </ng-template>
+
+  <ng-template #confirm>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Confirm Delete (A Product)</h4>
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+
+      <div class="modal-footer d-flex justify-content-between">
+        <button (click)="modalRef?.hide()" type="button" class="btn btn-secondary ml-1 ">Cancel </button>
+        <button (click)="modalRef?.hide()" (click)="removeSelected()" type="button" class="btn btn-info ml-1">Delete </button>
+    </div>
+
   </ng-template>
