@@ -44,12 +44,9 @@ namespace API.Data
 
             query = userParams.OrderBy switch
             {
-                "buyPrice" => query.OrderByDescending(u => u.BuyPrice),
-                "sellPrice" => query.OrderByDescending(u => u.SellPrice),
-                "profit" => query.OrderByDescending(u => u.Profit),
-                "d" => query.OrderBy(u => u.Profit),
-                "a" => query.OrderBy(u => u.BuyPrice),
-                "quantitySold" => query.OrderByDescending(u => u.QuantitySold),
+                "buyPriceDec" => query.OrderByDescending(u => u.BuyPrice),
+                "buyPriceAsc" => query.OrderBy(u => u.BuyPrice),
+                "uploadedAsc" => query.OrderBy(u => u.Uploaded),
                 _ => query.OrderByDescending(u => u.Uploaded),
             };
 

@@ -1,6 +1,7 @@
 export interface Product {
     id: number;
     isUploaded: boolean;
+    isChecked: boolean; // not in the API
     title: string;
     brand: string;
     buyPrice: number;

@@ -37,13 +37,14 @@ export class SidebarComponent {
   }
 
   createDraft(form:NgForm) {
-    const productId = this.walmartUrl.substring(this.walmartUrl.indexOf("athcpid")+8,this.walmartUrl.indexOf("athpgid")-1)
+    // const productId = this.walmartUrl.substring(this.walmartUrl.indexOf("?")-8,this.walmartUrl.indexOf("athpgid")-1)
+    const productId = this.walmartUrl.substring(this.walmartUrl.indexOf("?")-9,this.walmartUrl.indexOf("?"));
     this.productService.createDraft(productId).subscribe((res) => {
       this.toastr.success('Draft Uploaded Successfully');
       this.modalRef?.hide();
       form.reset();
     },(error)=>{
-      // this.modalRef?.hide();
+      this.modalRef?.hide();
       form.reset();
     });
   }

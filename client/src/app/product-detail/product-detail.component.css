@@ -11,7 +11,10 @@ textarea {
     margin-top: 20px;
     /* background-color: aquamarine; */
   }
-
+  ngx-gallery /deep/ .ngx-gallery-icon {
+    color: red;
+    /* background: blue; */
+  }
   .hover:hover{
     color: chocolate !important;
   }

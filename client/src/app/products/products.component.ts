@@ -12,17 +12,20 @@ import { ProductsService } from '../services/products.service';
   styleUrls: ['./products.component.css'],
 })
 export class ProductsComponent {
-  products : Product[];
+  products: Product[];
   pagination: Pagination;
   userParams: UserParams;
   modalRef?: BsModalRef;
+  count:number= 0;
 
 
   constructor(
     private productService: ProductsService,
     private toastr: ToastrService,
     private modalService: BsModalService
-  ) {this.userParams = new UserParams}
+  ) {
+    this.userParams = new UserParams();
+  }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -31,16 +34,37 @@ export class ProductsComponent {
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
-  
+
   loadProducts() {
     this.productService.getProducts(this.userParams).subscribe((res) => {
       this.products = res.result;
       this.pagination = res.pagination;
-      console.log(res);
+      this.products.forEach(e=>{
+        e.isChecked=false;
+      })
     });
   }
 
-  pageChanged(event: any){
+  changed(){
+    this.count = 0;
+    this.products.forEach(item=>{
+      if(item.isChecked){
+        this.count= this.count+1
+      }  
+    } )
+  }
+
+  checkUncheckAll(evt:any) {
+    this.count = 0;
+    this.products.forEach((c) =>{
+    c.isChecked = evt.target.checked
+    if(c.isChecked){
+      this.count= this.count+1
+    }  
+    })
+  }
+
+  pageChanged(event: any) {
     this.userParams.pageNumber = event.page;
     this.loadProducts();
   }
@@ -49,12 +73,14 @@ export class ProductsComponent {
     draft.isUploaded = false;
     this.productService.toDrafts(draft).subscribe(() => {
       this.products.splice(
-        this.products.findIndex((m) => m.id === draft.id),1);
+        this.products.findIndex((m) => m.id === draft.id),
+        1
+      );
       this.toastr.success('Product Back To Drafts..');
     });
   }
 
-    resetFilters() {
+  resetFilters() {
     this.userParams = new UserParams(); // to reset the params and reload the members data
     this.loadProducts();
   }
@@ -62,7 +88,19 @@ export class ProductsComponent {
   remove(id: number) {
     this.productService.deleteDraft(id).subscribe(() => {
       this.products.splice(
-        this.products.findIndex((m) => m.id === id),1);
+        this.products.findIndex((m) => m.id === id),
+        1
+      );
       this.toastr.success('Products Deleted successfully');
-    });  }
+    });
+  }
+
+  removeSelected(){
+    this.products.forEach(element => {
+      if(element.isChecked){
+        this.remove(element.id)
+      }  
+    });
+    this.count = 0;
+  }
 }

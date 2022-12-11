@@ -1,6 +1,6 @@
-<div *ngIf="products?.length !== 0; else null">
-  <h3 class="mb-3" >Products ({{products?.length}})</h3>
-<div class="btn-group" dropdown >
+<div >
+  <h3 class="mb-3" *ngIf="products?.length !== 0; else null">Products ({{products?.length}})</h3>
+<div class="btn-group" dropdown *ngIf="products?.length !== 0; else null">
   <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"aria-controls="dropdown-basic">
     Add Filter <span class="caret"></span>
   </button>
@@ -12,27 +12,37 @@
   </ul>
 </div>
 
-<div class="btn-group" dropdown >
-  <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle ms-2"aria-controls="dropdown-basic">
+<div class="btn-group" dropdown *ngIf="products?.length !== 0; else null">
+  <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle ms-2" style="width: 200px;" aria-controls="dropdown-basic">
     Sorting By <span class="caret"></span>
   </button>
   <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
       role="menu" aria-labelledby="button-basic">
     <li role="menuitem">
-      <div type="button" class="btn btn-outline-primary ms-3 mb-1 w-75" name="orderBy" btnRadio="uploaded" (click)="loadProducts()"
+      <div type="button" class="btn btn-outline-primary btn-sort" name="orderBy" btnRadio="uploadedDes" (click)="loadProducts()"
       [(ngModel)]="userParams.orderBy">Uploaded Descending</div>
     </li>
     <li role="menuitem">
-      <button type="button" class="btn btn-outline-primary ms-3 mb-1 w-75" name="orderBy" btnRadio="d" (click)="loadProducts()"
+      <button type="button" class="btn btn-outline-primary btn-sort" name="orderBy" btnRadio="uploadedAsc" (click)="loadProducts()"
       [(ngModel)]="userParams.orderBy">Uploaded Ascending</button>
     </li>
     <li role="menuitem">
-      <button type="button" class="btn btn-outline-primary ms-3 mb-1 w-75" name="orderBy" btnRadio="buyPrice" (click)="loadProducts()"
+      <button type="button" class="btn btn-outline-primary btn-sort" name="orderBy" btnRadio="buyPriceDes" (click)="loadProducts()"
       [(ngModel)]="userParams.orderBy">Buy Price Descending</button>
+    </li>
+    <li role="menuitem">
+      <button type="button" class="btn btn-outline-primary btn-sort" name="orderBy" btnRadio="buyPriceAsc" (click)="loadProducts()"
+      [(ngModel)]="userParams.orderBy">Buy Price Ascending</button>
     </li>
   </ul>
 </div>
+<button (click)="resetFilters()"  class="btn btn-primary ms-2">Reset Filters </button>
 </div>
+
+  <div *ngIf="products?.length !== 0; else null">
+  <input type="checkbox" class="mt-4" name="list_name" [checked]="count==0 ? false : true" (change)="checkUncheckAll($event)"/> <strong>&nbsp;&nbsp;&nbsp;{{count}} Result Selected</strong>
+  <button class="btn btn-link text-decoration-none ms-4" (click)="removeSelected()" [disabled]="count==0 ? true :false"><i class="fa fa-trash-o" aria-hidden="true"></i>Bulk Delete</button>
+  </div>
 
 <table class="table align-middle mb-0 bg-white table-hover mt-4" *ngIf="products?.length !== 0; else noDrafts">
 
@@ -53,7 +63,7 @@
       <tr>
         <td style="max-width: 5px;">
           <div>
-            <span class="ant-checkbox"><input type="checkbox" class="ant-checkbox-input" value=""></span>
+            <span class="ant-checkbox"><input type="checkbox" class="ant-checkbox-input" [(ngModel)]="draft.isChecked" (ngModelChange)="changed()" value=""></span>
           </div>
         </td>
         <td style="max-width: 450px;">
@@ -125,7 +135,7 @@
   </div>
 
   <ng-template #noDrafts>
-    <h1 style="text-align: center;">No Products availble for now...</h1>
+    <h1 style="text-align: center;">No Products To Show...</h1>
     <!-- <h1 style="text-align: center;">If you want to insert some new items please click the button below</h1>
     <button>Add Draft</button> -->
   </ng-template>

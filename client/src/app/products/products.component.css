@@ -4,3 +4,9 @@
     margin: 0 10px;
     white-space: nowrap;
   }
+
+  .btn-sort{
+    width: 200px;
+    margin: 5px;
+  }
+
