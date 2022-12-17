@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DraftsComponent } from './drafts/drafts.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
+import { AdminGuard } from './guards/admin.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { UserExists } from './guards/userExists.guard';
 import { HomeComponent } from './home/home.component';
@@ -16,11 +18,11 @@ import { RegisterComponent } from './register/register.component';
 import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent,
-    pathMatch: 'full'
-  },
+  // {
+  //   path: '',
+  //   component: HomeComponent,
+  //   pathMatch: 'full'
+  // },
   {
     path:'login', 
     canActivate:[UserExists],
@@ -42,7 +44,8 @@ const routes: Routes = [
       {path:'products',component: ProductsComponent},
       {path:'products/:id',component: ProductDetailComponent},
       {path:'drafts',component: DraftsComponent},
-      {path:'orders', component: OrdersComponent}
+      {path:'orders', component: OrdersComponent},
+      {path: 'admin', component: AdminPanelComponent, canActivate:[AdminGuard]}
     ]
   },
   {path: 'errors', component: TestErrorsComponent},

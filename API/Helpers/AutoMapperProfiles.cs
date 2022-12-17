@@ -30,6 +30,14 @@ namespace API.Helpers
                 }
             );
 
+            CreateMap<AppUser, UserWithRolesDTO>()
+            .ForMember(
+                dest => dest.Roles,
+                opt=>{
+                    opt.MapFrom(src=> src.UserRoles.Select(r => r.Role.Name).ToList());
+                }
+            );
+
             CreateMap<OrderUpdateDto, Order>();
 
             CreateMap<RegisterDto, AppUser>();

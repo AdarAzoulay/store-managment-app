@@ -31,7 +31,6 @@ export class DraftsTableComponent {
   
   loadDrafts() {
     this.productService.getDrafts(this.userParams).subscribe((res) => {
-      console.log(this.userParams)
       this.drafts = res.result;
       this.pagination = res.pagination;
       console.log(res)

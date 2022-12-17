@@ -31,6 +31,11 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductsComponent } from './products/products.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './directives/has-role.directive';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { ProductsManagementComponent } from './admin/products-management/products-management.component';
+import { RolesModalComponent } from './roles-modal/roles-modal.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +60,11 @@ import { ProductsComponent } from './products/products.component';
     PhotoEditorComponent,
     ProductDetailComponent,
     ProductsComponent,
+    AdminPanelComponent,
+    HasRoleDirective,
+    UserManagementComponent,
+    ProductsManagementComponent,
+    RolesModalComponent
   ],
   imports: [
     BrowserModule,

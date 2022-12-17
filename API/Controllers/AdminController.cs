@@ -2,7 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Helpers;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,28 +18,45 @@ namespace API.Controllers
     public class AdminController : BaseApiController
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly IMapper _mapper;
 
-        public AdminController(UserManager<AppUser> userManager)
+        public AdminController(UserManager<AppUser> userManager, IMapper mapper)
         {
+            _mapper = mapper;
             _userManager = userManager;
 
         }
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpGet("users-with-roles")]
-        public async Task<ActionResult> GetUsersWithRoles()
+        
+        public async Task<ActionResult<PagedList<UserWithRolesDTO>>> GetUsersWithRoles([FromQuery]UserParams userParams)
         {
-            var users = await _userManager.Users
+            var query = _userManager.Users.AsQueryable();
+            query = query
             .Include(r => r.UserRoles)
             .ThenInclude(r => r.Role)
-            .OrderBy(r => r.UserName)
-            .Select(u => new
-            {
-                u.Id,
-                Username = u.UserName,
-                Roles = u.UserRoles.Select(r => r.Role.Name).ToList()
-            })
-            .ToListAsync();
+            .OrderBy(r => r.UserName);
+            var users = await PagedList<UserWithRolesDTO>.CreateAsync(
+            query.ProjectTo<UserWithRolesDTO>(_mapper.ConfigurationProvider).AsNoTracking(),
+            userParams.PageNumber, userParams.PageSize);
+
+            // var users = await _userManager.Users
+            // .Include(r => r.UserRoles)
+            // .ThenInclude(r => r.Role)
+            // .OrderBy(r => r.UserName)
+            // .Select(u => new
+            // {
+            //     u.Id,
+            //     Username = u.UserName,
+            //     Roles = u.UserRoles.Select(r => r.Role.Name).ToList()
+            // })
+            // .ToListAsync();
+                Response.AddPaginationHeader(
+                users.CurrentPage, 
+                users.PageSize, 
+                users.TotalCount, 
+                users.TotalPages);
 
             return Ok(users);
         }

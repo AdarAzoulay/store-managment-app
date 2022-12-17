@@ -1,0 +1,41 @@
+<div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width:30%">Username</th>
+          <th style="width:40%">Active roles</th>
+          <th style="width:30%"></th> 
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{user?.username}}</td><!-- the '?' because the user is partial, all properties are optional  -->
+          <td>{{user?.roles}}</td>
+          <td>
+            <button class="btn btn-info" (click)="openRolesModal($any(user))">Edit Roles</button>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-center mt-3" *ngIf="pagination && users?.length !== 0; else null">
+      <pagination
+        [boundaryLinks]="true"
+        [totalItems]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [(ngModel)]="pagination.currentPage"
+        (pageChanged)="pageChanged($event)"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+        firstText="&laquo;"
+        lastText="&raquo;">
+    </pagination>
+    </div>
+    <div class="d-flex justify-content-end">
+      <div>Showing :&nbsp;&nbsp;&nbsp;</div>
+<select class="form-select form-select-sm" [(ngModel)]="selectedValue" (ngModelChange)="onChange($event)"  >
+  <option  *ngFor="let o of options" [ngValue]="o" [selected]="o==userParams.pageSize">{{o}}</option>
+</select>
+</div>
+  </div>
+
+  
