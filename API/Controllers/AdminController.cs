@@ -32,15 +32,6 @@ namespace API.Controllers
         
         public async Task<ActionResult<PagedList<UserWithRolesDTO>>> GetUsersWithRoles([FromQuery]UserParams userParams)
         {
-            var query = _userManager.Users.AsQueryable();
-            query = query
-            .Include(r => r.UserRoles)
-            .ThenInclude(r => r.Role)
-            .OrderBy(r => r.UserName);
-            var users = await PagedList<UserWithRolesDTO>.CreateAsync(
-            query.ProjectTo<UserWithRolesDTO>(_mapper.ConfigurationProvider).AsNoTracking(),
-            userParams.PageNumber, userParams.PageSize);
-
             // var users = await _userManager.Users
             // .Include(r => r.UserRoles)
             // .ThenInclude(r => r.Role)
@@ -52,6 +43,16 @@ namespace API.Controllers
             //     Roles = u.UserRoles.Select(r => r.Role.Name).ToList()
             // })
             // .ToListAsync();
+            
+            var query = _userManager.Users.AsQueryable();
+            query = query
+            .Include(r => r.UserRoles)
+            .ThenInclude(r => r.Role)
+            .OrderBy(r => r.UserName);
+            var users = await PagedList<UserWithRolesDTO>.CreateAsync(
+            query.ProjectTo<UserWithRolesDTO>(_mapper.ConfigurationProvider).AsNoTracking(),
+            userParams.PageNumber, userParams.PageSize);
+
                 Response.AddPaginationHeader(
                 users.CurrentPage, 
                 users.PageSize, 

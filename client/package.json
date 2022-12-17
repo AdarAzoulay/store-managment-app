@@ -23,6 +23,7 @@
     "bootstrap": "^5.2.2",
     "bootswatch": "^5.2.2",
     "font-awesome": "^4.7.0",
+    "ng2-search-filter": "^0.5.1",
     "ngx-bootstrap": "^6.2.0",
     "ngx-spinner": "^14.0.0",
     "ngx-toastr": "^16.0.1",

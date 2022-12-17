@@ -14,7 +14,7 @@ import { ProductsService } from '../services/products.service';
   styleUrls: ['./drafts-table.component.css'],
 })
 export class DraftsTableComponent {
-  drafts: Product[];
+  drafts?: Product[];
   pagination: Pagination;
   userParams: UserParams;
   bsModalRef: any;
@@ -56,7 +56,7 @@ export class DraftsTableComponent {
     console.log(this.drafts)
     draft.isUploaded = true;
     this.productService.toProducts(draft).subscribe(() => {
-      this.drafts.splice(
+      this.drafts?.splice(
         this.drafts.findIndex((m) => m.id === draft.id),1);
       this.toastr.success('Draft uploaded successfully');
     });
@@ -64,7 +64,7 @@ export class DraftsTableComponent {
 
   remove(id: number) {
     this.productService.deleteDraft(id).subscribe(() => {
-      this.drafts.splice(
+      this.drafts?.splice(
         this.drafts.findIndex((m) => m.id === id),1);
       this.toastr.success('Draft Deleted successfully');
     });

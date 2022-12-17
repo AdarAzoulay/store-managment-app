@@ -1,5 +1,6 @@
 body {
   overflow-x: hidden;
+  height: 100vh;
 }
 
 #page-content-wrapper {
@@ -7,3 +8,29 @@ body {
   min-width: 0;
   width: 100%;
 }
+
+[main] {
+height: 88vh;
+overflow-x: hidden;
+overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width:10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background:rgba(226, 135, 67,0.5);
+}
+
+/*track*/
+::-webkit-scrollbar-track {
+  background:rgb(255, 255, 255)
+}
+
+/*thumb*/
+::-webkit-scrollbar-thumb {
+  background:rgba(226, 135, 67);
+  border-radius:10px;
+}
+

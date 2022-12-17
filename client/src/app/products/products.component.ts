@@ -12,7 +12,7 @@ import { ProductsService } from '../services/products.service';
   styleUrls: ['./products.component.css'],
 })
 export class ProductsComponent {
-  products: Product[];
+  products?: Product[];
   pagination: Pagination;
   userParams: UserParams;
   modalRef?: BsModalRef;
@@ -48,7 +48,7 @@ export class ProductsComponent {
 
   changed(){
     this.count = 0;
-    this.products.forEach(item=>{
+    this.products?.forEach(item=>{
       if(item.isChecked){
         this.count= this.count+1
       }  
@@ -57,7 +57,7 @@ export class ProductsComponent {
 
   checkUncheckAll(evt:any) {
     this.count = 0;
-    this.products.forEach((c) =>{
+    this.products?.forEach((c) =>{
     c.isChecked = evt.target.checked
     if(c.isChecked){
       this.count= this.count+1
@@ -73,7 +73,7 @@ export class ProductsComponent {
   toDraft(draft: Product) {
     draft.isUploaded = false;
     this.productService.toDrafts(draft).subscribe(() => {
-      this.products.splice(
+      this.products?.splice(
         this.products.findIndex((m) => m.id === draft.id),
         1
       );
@@ -88,7 +88,7 @@ export class ProductsComponent {
 
   remove(id: number) {
     this.productService.deleteDraft(id).subscribe(() => {
-      this.products.splice(
+      this.products?.splice(
         this.products.findIndex((m) => m.id === id),
         1
       );
@@ -97,7 +97,7 @@ export class ProductsComponent {
   }
 
   removeSelected(){
-    this.products.forEach(element => {
+    this.products?.forEach(element => {
       if(element.isChecked){
         this.remove(element.id)
       }  

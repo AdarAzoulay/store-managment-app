@@ -36,6 +36,8 @@ import { HasRoleDirective } from './directives/has-role.directive';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { ProductsManagementComponent } from './admin/products-management/products-management.component';
 import { RolesModalComponent } from './roles-modal/roles-modal.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
 
 @NgModule({
   declarations: [
@@ -76,6 +78,7 @@ import { RolesModalComponent } from './roles-modal/roles-modal.component';
     NgxSpinnerModule,
     ReactiveFormsModule,
     NgxGalleryModule,
+    Ng2SearchPipeModule
     
   ],
   providers: [

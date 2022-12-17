@@ -14,11 +14,12 @@ import { AdminService } from 'src/app/services/admin.service';
 })
 export class UserManagementComponent implements OnInit {
   users: Partial<User[]> = [];
-  pagination: Pagination;
+  pagination?: Pagination;
   userParams: UserParamsAdmin;
   bsModalRef: BsModalRef;
   options = [1, 5, 10];
   selectedValue :number;
+  term:string
 
   constructor(
     private adminService: AdminService,
@@ -29,13 +30,14 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.pagination)
     this.selectedValue = this.userParams.pageSize;
     this.getUsersWithRoles();
   }
 
   onChange(newValue: any) {
     this.userParams.pageSize = newValue;
-    this.pagination.currentPage = 1;
+    this.pagination!.currentPage = 1;
     this.getUsersWithRoles();
   }
 

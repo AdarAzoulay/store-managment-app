@@ -1,4 +1,5 @@
 <div class="row">
+  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="term">
     <table class="table">
       <thead>
         <tr>
@@ -8,7 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users">
+        <tr *ngFor="let user of users |filter:term">
           <td>{{user?.username}}</td><!-- the '?' because the user is partial, all properties are optional  -->
           <td>{{user?.roles}}</td>
           <td>
@@ -35,6 +36,7 @@
 <select class="form-select form-select-sm" [(ngModel)]="selectedValue" (ngModelChange)="onChange($event)"  >
   <option  *ngFor="let o of options" [ngValue]="o" [selected]="o==userParams.pageSize">{{o}}</option>
 </select>
+<div>&nbsp;&nbsp;&nbsp; Out of {{pagination?.totalItems}}</div>
 </div>
   </div>
 
