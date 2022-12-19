@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, ReplaySubject } from 'rxjs';
+import { map, ReplaySubject, tap } from 'rxjs';
 import { User } from '../models/user';
 import { environment } from 'src/environments/environment';
 
@@ -34,6 +34,27 @@ export class AccountService {
       })
     );
   }
+
+  changePassword(model: any) {
+    return this.http.post<User>(this.baseUrl + 'account/changePassword', model).pipe(
+      tap((res : any) => {
+        console.log(res)
+        const user = res;
+        if (user) {
+          this.setCurrentUser(user);
+        }
+        return user;
+      })
+    );
+  }
+
+  // getMember(username: string) {
+  //   if(this.member) return of(this.member)
+  //   return this.http.get<Member>(`${this.baseUrl}users/${username}`).pipe(tap(res=>{
+  //     console.log(res)
+  //     this.member = res;
+  //   }));
+  // }
 
   setCurrentUser(user: User) {
     user.roles = [];

@@ -72,7 +72,89 @@
   </tab>
 
   <tab heading="Account Settings">
-    <div>Update Password</div>
-  </tab>
+    <div class="row">
+        <h2 class="col-12 mb-4">Personal Information</h2>
+    </div>  
+    <div class="row mb-2">
+        <div class="col-6 col-md-3">User Name</div>
+        <div class="col-6 col-md-9 form-group">
+            <span>{{member.username}}</span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6 col-md-3">Roles</div>
+        <div class="col-6 col-md-9 form-group">
+            <span *ngFor="let item of user.roles; let last = last">{{item}}<span *ngIf="!last">,</span></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-12 col-md-3">Email</div>
+        <div class="col-12 col-md-6 form-group">
+            <div class="editable-input">
+                <form class="editing input-group input-group-sm">
+                    <input class="form-control" type="text" placeholder="Email Address" value=".......">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary text-success">
+                            <span class="fa fa-check"></span>
+                        </button>
+                        <button class="btn btn-outline-secondary text-danger">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <button class="btn btn-info col-6 col-md-3" (click)="openModal(template)">Change Password</button>
+    </div>
+</tab>
 
 </tabset>
+
+<ng-template class="modal-content" #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Change Password</h4>
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+    <form [formGroup]='changePasswordForm' (ngSubmit)="changePassword()" id="changePasswordForm" autocomplete="off">
+
+        <div class="form-floating mb-3">
+            <input 
+            [class.is-invalid]="changePasswordForm.get('currentPassword')?.errors && changePasswordForm.get('currentPassword')?.touched"
+            type="password" class="form-control" formControlName="currentPassword" id="currentPassword" placeholder="Password">
+            <div *ngIf="changePasswordForm.get('currentPassword')?.hasError('required')" class="invalid-feedback">Please enter a password</div>
+            <div *ngIf="changePasswordForm.get('currentPassword')?.hasError('minlength')" class="invalid-feedback">password must be at least 6 characters</div>
+            <label for="currentPassword">Current Password</label>
+        </div>
+
+          <div class="form-floating mb-3">
+            <input 
+            [class.is-invalid]="changePasswordForm.get('newPassword')?.errors && changePasswordForm.get('newPassword')?.touched"
+            type="password" class="form-control" formControlName="newPassword" id="newPassword" placeholder="Password">
+            <div *ngIf="changePasswordForm.get('newPassword')?.hasError('required')" class="invalid-feedback">Please enter a password</div>
+            <div *ngIf="changePasswordForm.get('newPassword')?.hasError('minlength')" class="invalid-feedback">password must be at least 6 characters</div>
+            <label for="newPassword">New Password</label>
+        </div>
+        
+        <div class="form-floating mb-3">
+          <input
+          [class.is-invalid]="changePasswordForm.get('confirmPassword')?.errors && changePasswordForm.get('confirmPassword')?.touched"
+          type="password" class="form-control" formControlName="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
+          <div *ngIf="changePasswordForm.get('confirmPassword')?.hasError('required')" class="invalid-feedback">Please confirm the password</div>
+          <div *ngIf="changePasswordForm.get('confirmPassword')?.hasError('isMatching')" class="invalid-feedback">Confirm confirmation must match the password </div>              
+          <label for="confirmPassword">Confirm New Password</label>
+        </div> 
+    </form>
+        
+    </div>
+    <div class="modal-footer">
+        <!-- <button [disabled]="editForm.pristine" type="submit" form="editForm" class="btn btn-warning" >Add to drafts</button> -->
+        <button type="button" class="btn btn-default" (click)="modalRef?.hide()">Cancel</button>
+        <button type="submit" [disabled]="changePasswordForm.status=='INVALID'" form="changePasswordForm" class="btn btn-success" >Submit</button>
+    </div>
+  </ng-template>

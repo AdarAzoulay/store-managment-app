@@ -52,7 +52,7 @@ namespace API.Controllers
             if (!result.Succeeded) return BadRequest(result.Errors);
 
             var roleResult = await _userManager.AddToRoleAsync(user, "Member");
-            if(!roleResult.Succeeded) return BadRequest(roleResult.Errors);
+            if (!roleResult.Succeeded) return BadRequest(roleResult.Errors);
 
             return new UserDto
             {
@@ -84,5 +84,23 @@ namespace API.Controllers
             return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());
         }
 
+        [HttpPost("changePassword")]
+        public async Task<ActionResult<UserDto>> ChangePassword(ChangePasswordDto changePasswordDto)
+        {
+            var user = await this._userManager.Users.SingleOrDefaultAsync(x => x.UserName == changePasswordDto.Username.ToLower());
+            if (user == null) return BadRequest("Invalid Username");
+
+            var verigyResult = _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
+            if (verigyResult.Result.Succeeded)
+            {
+                return new UserDto
+                {
+                    Username = user.UserName,
+                    Token = await _tokenService.CreateToken(user)
+                };
+            }
+
+            return BadRequest(verigyResult.Result.Errors.ToArray());
+        }
     }
 }

@@ -19,7 +19,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((err) => {
-        console.log(err)
+        console.log(err);
         switch (err.status) {
           case 400:
             if (err.error.errors) {
@@ -30,7 +30,13 @@ export class ErrorInterceptor implements HttpInterceptor {
                 }
               }
               throw modelStateErrors.flat();
-            } else {
+            } 
+            else if (Array.isArray(err.error)) {
+              err.error.forEach((element :any) => {
+                this.toastr.error(element.description)
+              });
+            } 
+            else {
               this.toastr.error(
                 err.statusText === 'OK' ? err.error : err.statusText,
                 err.status
@@ -47,7 +53,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.router.navigateByUrl('/not-found');
             break;
           case 500:
-            console.log(typeof(err.error))
+            console.log(typeof err.error);
             const navigationExtras: NavigationExtras = {
               state: { error: err.error },
             };
@@ -58,7 +64,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             console.log(err);
             break;
         }
-        throw throwError(err)
+        throw throwError(err);
       })
     );
   }
