@@ -1,5 +1,5 @@
 <div class="row">
-  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="term">
+  <input class="form-control me-2 w-50 my-3" placeholder="Search" aria-label="Search" [(ngModel)]="term">
     <table class="table">
       <thead>
         <tr>
@@ -32,7 +32,7 @@
     </pagination>
     </div>
     <div class="d-flex justify-content-end">
-      <div>Showing :&nbsp;&nbsp;&nbsp;</div>
+      <div>Show :&nbsp;&nbsp;&nbsp;</div>
 <select class="form-select form-select-sm" [(ngModel)]="selectedValue" (ngModelChange)="onChange($event)"  >
   <option  *ngFor="let o of options" [ngValue]="o" [selected]="o==userParams.pageSize">{{o}}</option>
 </select>

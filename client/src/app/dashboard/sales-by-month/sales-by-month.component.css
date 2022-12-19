@@ -1,0 +1,15 @@
+
+canvas{
+
+  width:1000px !important;
+  height:450px !important;
+
+}
+@media only screen and (max-width: 500px) {
+canvas{
+
+  width:300px !important;
+  height:200px !important;
+
+}
+}

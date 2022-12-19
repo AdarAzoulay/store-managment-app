@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule , ReactiveFormsModule} from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+// import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { SettingsComponent } from './settings/settings.component';
 import { OrdersComponent } from './orders/orders.component';
@@ -37,6 +37,11 @@ import { UserManagementComponent } from './admin/user-management/user-management
 import { ProductsManagementComponent } from './admin/products-management/products-management.component';
 import { RolesModalComponent } from './roles-modal/roles-modal.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { MainComponent } from './dashboard/main/main.component';
+import { TopWidgetsComponent } from './dashboard/top-widgets/top-widgets.component';
+import { SalesByMonthComponent } from './dashboard/sales-by-month/sales-by-month.component';
+import { NgChartsModule } from 'ng2-charts';
+import { OverviewComponent } from './dashboard/overview/overview.component';
 
 
 @NgModule({
@@ -46,7 +51,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     SidebarComponent,
     LoginComponent,
     RegisterComponent,
-    DashboardComponent,
+    // DashboardComponent,
     OrdersComponent,
     HomeComponent,
     SettingsComponent,
@@ -66,7 +71,11 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     HasRoleDirective,
     UserManagementComponent,
     ProductsManagementComponent,
-    RolesModalComponent
+    RolesModalComponent,
+    MainComponent,
+    TopWidgetsComponent,
+    SalesByMonthComponent,
+    OverviewComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +87,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     NgxSpinnerModule,
     ReactiveFormsModule,
     NgxGalleryModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    NgChartsModule
     
   ],
   providers: [

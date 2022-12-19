@@ -1,0 +1,12 @@
+  <div class="card shadow-lg mb-5 bg-body rounded">
+    <div class="title">
+      <p>Overview</p>
+    </div>
+    <div class="items d-flex flex-column" *ngFor="let a of titles; let last = last">
+      <div class="d-flex flex-row justify-content-between">
+        <p>{{ a }}</p>
+        <p class="fw-bolder">$15</p>
+      </div>
+      <hr *ngIf="!last">
+    </div>
+  </div>

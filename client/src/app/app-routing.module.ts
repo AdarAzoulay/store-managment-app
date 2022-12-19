@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+// import { DashboardComponent } from './dashboard/dashboard.component';
+import { MainComponent } from './dashboard/main/main.component';
 import { DraftsComponent } from './drafts/drafts.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
@@ -39,7 +40,7 @@ const routes: Routes = [
     canActivate:[AuthGuard],
     children:[
       {path:'',component: HomeComponent},
-      {path:'dashboard',component: DashboardComponent},
+      {path:'dashboard',component: MainComponent},
       {path:'settings',component: SettingsComponent},
       {path:'products',component: ProductsComponent},
       {path:'products/:id',component: ProductDetailComponent},
