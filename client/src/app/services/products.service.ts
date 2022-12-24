@@ -27,6 +27,9 @@ export class ProductsService {
     const cacheKey = Object.values(userParams).join('-');
     this.cacheKey = cacheKey;
     const response = this.draftCache.get(cacheKey);
+    console.log(response, )
+    console.log(cacheKey)
+    console.log(this.draftCache)
     if(response) return of(response);
 
     return this.paginationSerivce.getPaginatedResult<Product[]>(`${this.baseUrl}drafts`,params)
@@ -79,6 +82,10 @@ export class ProductsService {
     return this.http.put(`${this.baseUrl}update-draft`, draft).pipe(
       tap(() => {
         this.productCache.clear(); //To force getProducts to render
+        if((this.draftCache.get(this.cacheKey)?.result.length == 1)){
+        this.draftCache.get(this.cacheKey)!.pagination.currentPage--;
+      }
+      this.draftCache.clear()
       })
     );
   }
@@ -93,14 +100,48 @@ export class ProductsService {
 
 
   deleteDraft(id: number) {
-    return this.http.delete(this.baseUrl + 'delete-draft/' + id);
+    return this.http.delete(this.baseUrl + 'delete-draft/' + id)
+    .pipe(tap( (t: any) => {
+      if(this.draftCache.get(this.cacheKey)?.result.length == 1) {
+        this.draftCache.get(this.cacheKey)!.pagination.currentPage--;
+        this.draftCache.clear()
+        // this.getDrafts(new UserParams())
+      }
+      else{
+        this.decreaseTotalItemsCache()
+        this.draftCache.clear()
+      }
+    }));
   }
 
   createDraft(productId: string) {
+    const cache = this.draftCache.get(this.cacheKey);
     const createDraft = { productId };
     return this.http.post(this.baseUrl + 'add-draft', createDraft)
-      .pipe(tap((draft: any) => this.draftCache.get(this.cacheKey)?.result.push(draft)));
+      .pipe(tap((draft: any) =>{
+        if((cache?.pagination.currentPage == cache?.pagination.totalPages) && (cache!.pagination.totalItems % cache!.pagination.itemsPerPage !=0))
+        {
+        this.draftCache.get(this.cacheKey)?.result.push(draft);
+        this.increaseTotalItemsCache()
+        }
+        else{
+          this.increaseTotalItemsCache()
+        }
+      }
+      ));
   }
+
+  increaseTotalItemsCache(){
+      for (const value of this.draftCache.values()) {
+        value.pagination.totalItems++;
+      }
+    }
+
+    decreaseTotalItemsCache(){
+      for (const value of this.draftCache.values()) {
+        value.pagination.totalItems--;
+      }
+    }
 
   setMainPhoto(updatePhoto: updatePhoto) {
     return this.http.put(`${this.baseUrl}set-main-photo`, updatePhoto);

@@ -130,7 +130,7 @@ namespace API.Controllers
             if (await _productRepository.SaveAllAsync())
                 return Ok();
 
-            return BadRequest("Failed to delete message");
+            return BadRequest("Failed to delete Draft");
         }
 
 

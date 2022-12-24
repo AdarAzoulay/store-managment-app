@@ -37,8 +37,16 @@ export class SidebarComponent {
   }
 
   createDraft(form:NgForm) {
-    // const productId = this.walmartUrl.substring(this.walmartUrl.indexOf("?")-8,this.walmartUrl.indexOf("athpgid")-1)
-    const productId = this.walmartUrl.substring(this.walmartUrl.indexOf("?")-9,this.walmartUrl.indexOf("?"));
+    let productId;
+    if(/\d/.test(this.walmartUrl[this.walmartUrl.length-1]) && /d/.test(this.walmartUrl.slice(-5))){
+      productId = this.walmartUrl.substring(this.walmartUrl.length-11,this.walmartUrl.length );
+      productId = productId.replace(/\D/g,'');
+    }
+    else{
+      productId = this.walmartUrl.substring(this.walmartUrl.indexOf("?")-11,this.walmartUrl.indexOf("?"));
+      productId = productId.replace(/\D/g,'');
+    }
+    console.log(productId)
     this.productService.createDraft(productId).subscribe((res) => {
       this.toastr.success('Draft Uploaded Successfully');
       this.modalRef?.hide();

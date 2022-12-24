@@ -1,4 +1,4 @@
-<h3 class="mb-3" *ngIf="drafts?.length !== 0; else null">Drafts ({{drafts?.length}})</h3>
+<h3 class="mb-3" *ngIf="drafts?.length !== 0; else null">Drafts ({{pagination?.totalItems}})</h3>
 <table class="table align-middle mb-0 bg-white table-hover mt-4" *ngIf="drafts?.length !== 0; else noDrafts">
   <tbody *ngFor="let draft of drafts">
     <tr>
@@ -44,7 +44,17 @@
     firstText="&laquo;"
     lastText="&raquo;">
 </pagination>
+
+<div class="d-flex justify-content-end">
+  <div>Show :&nbsp;&nbsp;&nbsp;</div>
+<select class="form-select form-select-sm" [(ngModel)]="selectedValue" (ngModelChange)="onChange($event)"  >
+<option  *ngFor="let o of options" [ngValue]="o" [selected]="o==userParams.pageSize">{{o}}</option>
+</select>
+<div>&nbsp;&nbsp;&nbsp; Out of {{pagination?.totalItems}}</div>
 </div>
+</div>
+
+
 
 <ng-template #noDrafts>
   <h1 style="text-align: center;">No Drafts availble for now...</h1>
