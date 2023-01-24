@@ -3,14 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { map, ReplaySubject, tap } from 'rxjs';
 import { User } from '../models/user';
 import { environment } from 'src/environments/environment';
+import { ProductsService } from './products.service';
 
 @Injectable({ providedIn: 'root' }) //an injectable singleton (does not destroys until we close our app)
 export class AccountService {
   baseUrl = environment.apiUrl;
   private currentUserSource$ = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource$.asObservable();
+  isSignedIn = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private productsService: ProductsService) {}
 
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
@@ -31,6 +33,7 @@ export class AccountService {
           this.setCurrentUser(user);
         }
         return user;
+        
       })
     );
   }
@@ -60,6 +63,7 @@ export class AccountService {
     user.roles = [];
     const roles = this.getDecodedToken(user.token).role; 
     Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
+    this.isSignedIn= true
 
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource$.next(user);
@@ -68,6 +72,10 @@ export class AccountService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource$.next();
+    this.productsService.draftCache.clear();
+    this.productsService.productCache.clear();
+    this.isSignedIn= false
+
   }
 
   getDecodedToken(token: string) {

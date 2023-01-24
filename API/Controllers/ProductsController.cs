@@ -43,6 +43,18 @@ namespace API.Controllers
             return Ok(products);
         }
 
+        [HttpGet("user-products")]
+        public async Task<ActionResult<PagedList<Product>>> GetUserProducts([FromQuery] UserParams userParams)
+        {
+            var products = await _productRepository.ProductsByCurrentUser(userParams);
+                Response.AddPaginationHeader(
+                products.CurrentPage, 
+                products.PageSize, 
+                products.TotalCount, 
+                products.TotalPages);
+            return Ok(products);
+        }
+
         [HttpGet("drafts")]
         public async Task<ActionResult<PagedList<Product>>> GetDrafts([FromQuery] UserParams userParams)
         {
@@ -53,6 +65,18 @@ namespace API.Controllers
                 drafts.TotalCount, 
                 drafts.TotalPages);
             return Ok(drafts);
+        }
+
+        [HttpGet("user-drafts")]
+        public async Task<ActionResult<PagedList<Product>>> GetUserDrafts([FromQuery] UserParams userParams)
+        {
+            var products = await _productRepository.DraftstsByCurrentUser(userParams);
+                Response.AddPaginationHeader(
+                products.CurrentPage, 
+                products.PageSize, 
+                products.TotalCount, 
+                products.TotalPages);
+            return Ok(products);
         }
 
         [HttpGet("products/{id:int}")]
@@ -68,13 +92,6 @@ namespace API.Controllers
             var rtn = await _productRepository.GetSpesificDraftAsync(id);
             return rtn;
         }
-
-        // [HttpGet("{username}")]
-        // public async Task<ActionResult<IEnumerable<OrderDto>>> GetMemberOrders(string username)
-        // {
-        //     var rtn = await _orderRepository.OrdersByUsernameAsync(username);
-        //     return Ok(rtn);
-        // }
 
         [HttpPut("update-draft")]
         public async Task<ActionResult> UpdateProduct(ProductUpdateDto productUpdateDto)

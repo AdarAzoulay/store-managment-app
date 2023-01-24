@@ -1,5 +1,5 @@
 <div >
-  <h3 class="mb-3" *ngIf="products?.length !== 0; else null">Products ({{products?.length}})</h3>
+  <h3 class="mb-3" *ngIf="products?.length !== 0; else null">Products ({{pagination!.totalItems}})</h3>
 <div class="btn-group" dropdown *ngIf="products?.length !== 0; else null">
   <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"aria-controls="dropdown-basic">
     Add Filter <span class="caret"></span>
@@ -223,7 +223,7 @@
 
   <ng-template #confirm>
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Confirm Delete (A Product)</h4>
+      <h4 class="modal-title pull-left">Confirm Delete</h4>
       <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
         <span aria-hidden="true" class="visually-hidden">&times;</span>
       </button>

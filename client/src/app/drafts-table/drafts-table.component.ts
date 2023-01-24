@@ -40,7 +40,7 @@ export class DraftsTableComponent {
   }
 
   loadDrafts() {
-    this.productService.getDrafts(this.userParams).subscribe((res) => {
+    this.productService.getUserDrafts(this.userParams).subscribe((res) => {
       this.drafts = res.result;
       this.pagination = res.pagination;
       console.log(res)
@@ -63,24 +63,40 @@ export class DraftsTableComponent {
   }
 
   import(draft: Product) {
-    console.log(this.drafts)
+
     draft.isUploaded = true;
     this.productService.toProducts(draft).subscribe(() => {
-      if(this.drafts?.length != 1){
-      this.drafts?.splice(
-        this.drafts.findIndex((m) => m.id === draft.id),1);
+      if(this.pagination!.totalPages - this.pagination!.currentPage == 1 && this.pagination!.totalItems - (this.pagination!.currentPage * this.pagination!.itemsPerPage) == 1){
+        this.loadDrafts();
       }
+      if(this.drafts?.length == 1 && this.pagination?.totalPages !=1){
+        this.userParams.pageNumber=1;
+        this.loadDrafts();
+      }
+      else{
+        this.drafts?.splice(
+        this.drafts.findIndex((m) => m.id === draft.id),1);
+    }
       this.toastr.success('Draft uploaded successfully');
+      this.pagination!.totalItems--;
     });
   }
 
   remove(id: number) {
     this.productService.deleteDraft(id).subscribe(() => {
-      if(this.drafts?.length != 1){
-      this.drafts?.splice(
-        this.drafts.findIndex((m) => m.id === id),1);
+      if(this.pagination!.totalPages - this.pagination!.currentPage == 1 && this.pagination!.totalItems - (this.pagination!.currentPage * this.pagination!.itemsPerPage) == 1){
+        this.loadDrafts();
       }
+      if(this.drafts?.length == 1 && this.pagination?.totalPages !=1){
+        // this.userParams.pageNumber=1;
+        this.loadDrafts();
+      }
+      else{
+        this.drafts?.splice(
+        this.drafts.findIndex((m) => m.id === id),1);
+    }
       this.toastr.success('Draft Deleted successfully');
+      this.pagination!.totalItems--;
     });
   }
 

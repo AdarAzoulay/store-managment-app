@@ -1,1 +1,101 @@
-<p>products-management works!</p>
+<div >
+    <h3 class="mb-3" *ngIf="products?.length !== 0; else null">Products ({{pagination!.totalItems}})</h3>
+
+  <table class="table align-middle mb-0 bg-white table-hover mt-4" *ngIf="products?.length !== 0; else noDrafts">
+  
+      <thead class="bg-light">
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Uploaded</th>
+            <!-- <th>Store</th> -->
+            <th >Price</th>
+            <th >Profit</th>
+            <th >item ID</th>
+            <th >Sold</th>
+            <th style="text-align: center;">Actions</th>
+          </tr>
+        </thead>
+      <tbody *ngFor="let draft of products">
+        <tr>
+          <td style="max-width: 5px;">
+            <div>
+              <span class="ant-checkbox"><input type="checkbox" class="ant-checkbox-input" [(ngModel)]="draft.isChecked" (ngModelChange)="changed()" value=""></span>
+            </div>
+          </td>
+          <td style="max-width: 450px;">
+            <div class="d-flex align-items-center">
+              <img
+              src="{{draft.photoUrl}}"
+                  alt=""
+                  style="width: 55px; height: 55px"
+                  class="rounded-circle"
+                  />
+                  <p style="max-width: 350px;" class="fw-bold mb-1 cut-text" title="{{draft.title}}">{{draft.title}}</p>
+              <!-- <div class="ms-3">
+                <p class="text-muted fs-6  mb-0">Supplier: {{draft.url.includes("walmart") ? "Walmart US" : null}} &nbsp;&nbsp; |&nbsp;&nbsp; Sellet: {{draft.brand}} &nbsp;&nbsp; |&nbsp;&nbsp;<a class="link-secondary" href="{{draft.url}}">View Source Product</a></p>
+              </div> -->
+            </div>
+          </td>
+          <td>
+              {{draft.uploaded}}
+          </td>
+          <!-- <td>
+              Store Name
+          </td> -->
+          <td>
+              <div class="mb-1">
+                  <span class="bg-secondary text-white" style="display: inline-block; width: 30px; ">Buy</span> ${{draft.buyPrice.toFixed(2)}}
+              </div>
+              <div>
+                  <span class="bg-secondary text-white" style="display: inline-block; width: 30px;">Sell</span> ${{draft.sellPrice.toFixed(2)}}
+              </div>
+          </td>
+          <td>
+              <span>${{draft.profit.toFixed(2)}}</span>
+          </td>
+          <td>
+              <div class="mb-1">
+                  <span class="bg-secondary text-white" style="display: inline-block; width: 30px; ">Buy</span> <a href="{{draft.url}}">{{draft.itemId}}</a>
+              </div>
+              <div>
+                  <span class="bg-secondary text-white" style="display: inline-block; width: 30px;">Sell</span> Sell Link
+              </div>
+          </td>
+          <td>
+            {{draft.quantitySold}}
+          </td>
+          <td >
+            <div class="float-end">
+              <!-- <button type="button" class="btn btn-outline-secondary m-1" (click)="openModalWithComponent(draft)" >Edit</button> -->
+              <button type="button" class="btn btn-outline-warning  m-1"  (click)="toDraft(draft)">Back To Drafts</button>
+              <button type="button" class="btn btn-outline-danger m-1"  (click)="remove(draft.id)">Delete</button>
+              <button type="button" class="btn btn-outline-info m-1" routerLink="/products/{{draft.id}}">View details</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+    </table>
+    
+    <div class="d-flex justify-content-center mt-3" *ngIf="pagination && products?.length !== 0; else null">
+      <pagination
+        [boundaryLinks]="true"
+        [totalItems]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [(ngModel)]="pagination.currentPage"
+        (pageChanged)="pageChanged($event)"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+        firstText="&laquo;"
+        lastText="&raquo;">
+    </pagination>
+    </div>
+  
+    <ng-template #noDrafts>
+      <h1 style="text-align: center;">No Products To Show...</h1>
+      <!-- <h1 style="text-align: center;">If you want to insert some new items please click the button below</h1>
+      <button>Add Draft</button> -->
+    </ng-template>
+  
+
+  

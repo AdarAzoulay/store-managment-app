@@ -10,8 +10,8 @@ body {
 }
 
 [main] {
-height: 88vh;
-overflow-x: hidden;
+max-height: 88vh;
+/* overflow-x: hidden; */
 overflow-y: auto;
 }
 

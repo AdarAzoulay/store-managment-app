@@ -8,14 +8,11 @@ import { AccountService } from '../services/account.service';
 export class UserExists implements CanActivate {
     constructor(private accountService: AccountService, private toastr: ToastrService, private router : Router) { }
 
-    canActivate() : Observable<boolean> {
-        return this.accountService.currentUser$.pipe(
-            map(user=>{
-                if (!user) return true;
-                this.router.navigateByUrl("/")
-
-                return false;
-            })
-        )
-    }
-}
+    canActivate() : boolean  {
+        if (this.accountService.isSignedIn) {
+            this.router.navigate(["/"]); 
+            return false;
+          }
+          return true;
+        }
+      }

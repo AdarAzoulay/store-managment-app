@@ -17,8 +17,8 @@ namespace API.Interfaces
         void DeleteDraft(Product product);
         Task<PagedList<ProductDto>> GetProductsAsync(UserParams userParams);
         Task<PagedList<ProductDto>> GetDraftsAsync(UserParams userParams);
-        Task<IEnumerable<ProductDto>> ProductsByUsernameAsync(string username);
-        Task<IEnumerable<ProductDto>> DraftsByUsernameAsync(string username);
+        Task<PagedList<ProductDto>> ProductsByCurrentUser(UserParams userParams);
+        Task<PagedList<ProductDto>> DraftstsByCurrentUser(UserParams userParams);
         Task<Product> GetSpesificProductAsync(int id);
         Task<ProductDto> GetSpesificProductDtoAsync(int id);
         Task<ProductDto> GetSpesificDraftAsync(int id);

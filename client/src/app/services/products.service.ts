@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { map, of, take, tap } from 'rxjs';
-import { User } from '../models/user';
-import { AccountService } from './account.service';
+import {  of, tap } from 'rxjs';
 import { Product, updatePhoto } from '../models/Product';
 import { PaginatedResult } from '../models/pagination';
 import { UserParams } from '../models/userParams';
@@ -21,29 +19,50 @@ export class ProductsService {
 
   constructor(private http: HttpClient, private paginationSerivce: PaginationService) {}
 
-  getDrafts(userParams : UserParams) {
+  getUserDrafts(userParams : UserParams) {
     let params = this.paginationSerivce.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
-
     const cacheKey = Object.values(userParams).join('-');
     this.cacheKey = cacheKey;
     const response = this.draftCache.get(cacheKey);
-    console.log(response, )
-    console.log(cacheKey)
-    console.log(this.draftCache)
     if(response) return of(response);
 
-    return this.paginationSerivce.getPaginatedResult<Product[]>(`${this.baseUrl}drafts`,params)
+    return this.paginationSerivce.getPaginatedResult<Product[]>(`${this.baseUrl}user-drafts`,params)
     .pipe(
       tap(res =>this.draftCache.set(cacheKey, res))
     );
   }
 
-  getProducts(userParams : UserParams) {
+  getUserProducts(userParams : UserParams) {
+    let params = this.paginationSerivce.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
     const cacheKey = Object.values(userParams).join('-');
     this.cacheKey = cacheKey;
     const response = this.productCache.get(cacheKey);
+    console.log(response)
     if(response) return of(response);
+
+    params = params.append('minBuyPrice', userParams.minBuyPrice.toString());
+    params = params.append('maxBuyPrice', userParams.maxBuyPrice.toString());
+    params = params.append('minSellPrice', userParams.minSellPrice.toString());
+    params = params.append('maxSellPrice', userParams.maxSellPrice.toString());
+    params = params.append('minProfit', userParams.minProfit.toString());
+    params = params.append('maxProfit', userParams.maxProfit.toString());
+    params = params.append('soldCount', userParams.soldCount.toString());
+    params = params.append('orderBy', userParams.orderBy);
+
+
+    return this.paginationSerivce.getPaginatedResult<Product[]>(`${this.baseUrl}user-products`,params)
+    .pipe(
+      tap(res =>this.productCache.set(cacheKey, res))
+    );
+  }
+
+  getProducts(userParams : UserParams) {
     let params = this.paginationSerivce.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+    const cacheKey = Object.values(userParams).join('-');
+    this.cacheKey = cacheKey;
+    const response = this.productCache.get(cacheKey);
+    console.log(response)
+    if(response) return of(response);
 
     params = params.append('minBuyPrice', userParams.minBuyPrice.toString());
     params = params.append('maxBuyPrice', userParams.maxBuyPrice.toString());
@@ -82,10 +101,10 @@ export class ProductsService {
     return this.http.put(`${this.baseUrl}update-draft`, draft).pipe(
       tap(() => {
         this.productCache.clear(); //To force getProducts to render
-        if((this.draftCache.get(this.cacheKey)?.result.length == 1)){
-        this.draftCache.get(this.cacheKey)!.pagination.currentPage--;
+        if((this.draftCache.get(this.cacheKey)?.result.length !== 1)){
+          this.draftCache.clear()
       }
-      this.draftCache.clear()
+
       })
     );
   }
@@ -122,10 +141,11 @@ export class ProductsService {
         if((cache?.pagination.currentPage == cache?.pagination.totalPages) && (cache!.pagination.totalItems % cache!.pagination.itemsPerPage !=0))
         {
         this.draftCache.get(this.cacheKey)?.result.push(draft);
-        this.increaseTotalItemsCache()
+        this.increaseTotalItemsCache();
         }
         else{
-          this.increaseTotalItemsCache()
+          this.increaseTotalItemsCache();
+          this.draftCache.clear();
         }
       }
       ));

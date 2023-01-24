@@ -36,7 +36,7 @@ export class ProductsComponent {
   }
 
   loadProducts() {
-    this.productService.getProducts(this.userParams).subscribe((res) => {
+    this.productService.getUserProducts(this.userParams).subscribe((res) => {
       console.log(res)
       this.products = res.result;
       this.pagination = res.pagination;
@@ -76,8 +76,9 @@ export class ProductsComponent {
       this.products?.splice(
         this.products.findIndex((m) => m.id === draft.id),
         1
-      );
-      this.toastr.success('Product Back To Drafts..');
+        );
+        this.toastr.success('Product Back To Drafts..');
+        this.pagination!.totalItems--;
     });
   }
 

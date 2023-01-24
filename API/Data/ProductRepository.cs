@@ -8,18 +8,22 @@ using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
     public class ProductRepository : IProductRepository
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public ProductRepository(DataContext context, IMapper mapper)
+        
+        public ProductRepository(DataContext context, IMapper mapper,IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _context = context;
+             _httpContextAccessor = httpContextAccessor;
         }
         public async Task<PagedList<ProductDto>> GetDraftsAsync(UserParams userParams)
         {
@@ -44,7 +48,7 @@ namespace API.Data
 
             query = userParams.OrderBy switch
             {
-                "buyPriceDec" => query.OrderByDescending(u => u.BuyPrice),
+                "buyPriceDes" => query.OrderByDescending(u => u.BuyPrice),
                 "buyPriceAsc" => query.OrderBy(u => u.BuyPrice),
                 "uploadedAsc" => query.OrderBy(u => u.Uploaded),
                 _ => query.OrderByDescending(u => u.Uploaded),
@@ -56,9 +60,41 @@ namespace API.Data
 
         }
 
-        public Task<IEnumerable<ProductDto>> DraftsByUsernameAsync(string username)
+        public async Task<PagedList<ProductDto>> DraftstsByCurrentUser(UserParams userParams)
         {
-            throw new NotImplementedException();
+            var id = int.Parse(_httpContextAccessor.HttpContext.User.Claims.Where(x => x.Type == "id").FirstOrDefault()?.Value);
+            var query = _context.Products.Where(i=>i.AppUserId==id).AsQueryable();
+
+            query = query.Where(i => i.IsUploaded == false);
+
+            return await PagedList<ProductDto>.CreateAsync(
+            query.ProjectTo<ProductDto>(_mapper.ConfigurationProvider).AsNoTracking(),
+            userParams.PageNumber, userParams.PageSize);
+
+        }
+        public async Task<PagedList<ProductDto>> ProductsByCurrentUser(UserParams userParams)
+        { 
+            var id = int.Parse(_httpContextAccessor.HttpContext.User.Claims.Where(x => x.Type == "id").FirstOrDefault()?.Value);
+            var query = _context.Products.Where(i=>i.AppUserId==id).AsQueryable();
+            query = query.Where(i => i.IsUploaded == true);
+
+            query = query.Where(i => i.BuyPrice >= userParams.MinBuyPrice && i.BuyPrice <= userParams.MaxBuyPrice);  
+            query = query.Where(i => i.SellPrice >= userParams.MinSellPrice && i.SellPrice <= userParams.MaxSellPrice);  
+            query = query.Where(i => i.Profit>= userParams.MinProfit && i.Profit <= userParams.MaxProfit);  
+            query = query.Where(i => userParams.SoldCount >= 0);  
+
+            query = userParams.OrderBy switch
+            {
+                "buyPriceDes" => query.OrderByDescending(u => u.BuyPrice),
+                "buyPriceAsc" => query.OrderBy(u => u.BuyPrice),
+                "uploadedAsc" => query.OrderBy(u => u.Uploaded),
+                _ => query.OrderByDescending(u => u.Uploaded),
+            };
+
+            return await PagedList<ProductDto>.CreateAsync(
+            query.ProjectTo<ProductDto>(_mapper.ConfigurationProvider).AsNoTracking(),
+            userParams.PageNumber, userParams.PageSize);
+
         }
 
 
@@ -88,10 +124,6 @@ namespace API.Data
 
         }
 
-        public Task<IEnumerable<ProductDto>> ProductsByUsernameAsync(string username)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<bool> SaveAllAsync()
         {

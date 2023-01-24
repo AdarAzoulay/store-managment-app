@@ -39,7 +39,7 @@ const routes: Routes = [
     runGuardsAndResolvers:'always',
     canActivate:[AuthGuard],
     children:[
-      {path:'',component: HomeComponent},
+      {path:'',component: HomeComponent,pathMatch: 'full' },
       {path:'dashboard',component: MainComponent},
       {path:'settings',component: SettingsComponent},
       {path:'products',component: ProductsComponent},
@@ -49,9 +49,9 @@ const routes: Routes = [
       {path: 'admin', component: AdminPanelComponent, canActivate:[AdminGuard]}
     ]
   },
-  {path: 'errors', component: TestErrorsComponent},
-  {path: 'not-found', component: NotFoundComponent},
-  {path: 'server-error', component: ServerErrorComponent},
+  {path: 'errors', component: TestErrorsComponent, canActivate:[AdminGuard]},
+  {path: 'not-found', component: NotFoundComponent, canActivate:[AdminGuard]},
+  {path: 'server-error', component: ServerErrorComponent, canActivate:[AdminGuard]},
   {
     path: '**',
     component: NotFoundComponent,

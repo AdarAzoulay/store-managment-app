@@ -7,16 +7,26 @@ import { AccountService } from '../services/account.service';
 @Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate {
     constructor(private accountService: AccountService, private toastr: ToastrService, private router : Router) { }
+    canActivate() :  boolean {
 
-    canActivate() : Observable<boolean> {
-        return this.accountService.currentUser$.pipe(
-            map(user=>{
-                if (user) return true;
-                this.router.navigateByUrl("/login")
-                this.toastr.error('Not allowed to pass');
+        if (this.accountService.isSignedIn) {
+            return true
+          }
+          this.router.navigateByUrl("/login")
+          this.toastr.error('Not allowed to pass');
 
-                return false;
-            })
-        )
-    }
+          return false;
+        }
+
+            // canActivate() : Observable<boolean> {
+    //     return this.accountService.currentUser$.pipe(
+    //         map(user=>{
+    //             if (user) return true;
+    //             this.router.navigateByUrl("/login")
+    //             this.toastr.error('Not allowed to pass');
+
+    //             return false;
+    //         })
+    //     )
+    // }
 }

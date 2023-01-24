@@ -45,13 +45,13 @@
     lastText="&raquo;">
 </pagination>
 
-<div class="d-flex justify-content-end">
+</div>
+<div class="d-flex justify-content-end mb-2">
   <div>Show :&nbsp;&nbsp;&nbsp;</div>
 <select class="form-select form-select-sm" [(ngModel)]="selectedValue" (ngModelChange)="onChange($event)"  >
 <option  *ngFor="let o of options" [ngValue]="o" [selected]="o==userParams.pageSize">{{o}}</option>
 </select>
 <div>&nbsp;&nbsp;&nbsp; Out of {{pagination?.totalItems}}</div>
-</div>
 </div>
 
 
