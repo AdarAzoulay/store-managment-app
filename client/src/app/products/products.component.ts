@@ -17,7 +17,8 @@ export class ProductsComponent {
   userParams: UserParams;
   modalRef?: BsModalRef;
   count:number= 0;
-
+  options = [1, 5, 10];
+  selectedValue :number;
 
   constructor(
     private productService: ProductsService,
@@ -28,6 +29,7 @@ export class ProductsComponent {
   }
 
   ngOnInit(): void {
+    this.selectedValue = this.userParams.pageSize;
     this.loadProducts();
   }
 
@@ -44,6 +46,12 @@ export class ProductsComponent {
         e.isChecked=false;
       })
     });
+  }
+
+  onChange(newValue: any) {
+    this.userParams.pageSize = newValue;
+    this.pagination!.currentPage = 1;
+    this.loadProducts();
   }
 
   changed(){
@@ -71,14 +79,22 @@ export class ProductsComponent {
   }
 
   toDraft(draft: Product) {
+
     draft.isUploaded = false;
-    this.productService.toDrafts(draft).subscribe(() => {
-      this.products?.splice(
-        this.products.findIndex((m) => m.id === draft.id),
-        1
-        );
-        this.toastr.success('Product Back To Drafts..');
-        this.pagination!.totalItems--;
+    this.productService.toProducts(draft).subscribe(() => {
+      if(this.pagination!.totalPages - this.pagination!.currentPage == 1 && this.pagination!.totalItems - (this.pagination!.currentPage * this.pagination!.itemsPerPage) == 1){
+        this.loadProducts();
+      }
+      if(this.products?.length == 1 && this.pagination?.totalPages !=1){
+        this.userParams.pageNumber=1;
+        this.loadProducts();
+      }
+      else{
+        this.products?.splice(
+        this.products.findIndex((m) => m.id === draft.id),1);
+    }
+      this.toastr.success('Draft uploaded successfully');
+      this.pagination!.totalItems--;
     });
   }
 
@@ -88,14 +104,22 @@ export class ProductsComponent {
   }
 
   remove(id: number) {
-    this.productService.deleteDraft(id).subscribe(() => {
-      this.products?.splice(
-        this.products.findIndex((m) => m.id === id),
-        1
-      );
-      this.toastr.success('Products Deleted successfully');
+    this.productService.deleteProduct(id).subscribe(() => {
+      if(this.pagination!.totalPages - this.pagination!.currentPage == 1 && this.pagination!.totalItems - (this.pagination!.currentPage * this.pagination!.itemsPerPage) == 1){
+        this.loadProducts();
+      }
+      if(this.products?.length == 1 && this.pagination?.totalPages !=1){
+        this.loadProducts();
+      }
+      else{
+        this.products?.splice(
+        this.products.findIndex((m) => m.id === id),1);
+    }
+      this.toastr.success('Product Deleted successfully');
+      this.pagination!.totalItems--;
     });
   }
+  
 
   removeSelected(){
     this.products?.forEach(element => {

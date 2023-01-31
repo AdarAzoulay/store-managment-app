@@ -38,12 +38,15 @@ export class SidebarComponent {
 
   createDraft(form:NgForm) {
     let productId;
-    if(/\d/.test(this.walmartUrl[this.walmartUrl.length-1]) && /\d/.test(this.walmartUrl.slice(-5))){
+    if(/\d/.test(this.walmartUrl[this.walmartUrl.length-1]) && /^\d+$/.test(this.walmartUrl.slice(-5))){
       productId = this.walmartUrl.substring(this.walmartUrl.length-11,this.walmartUrl.length );
       productId = productId.replace(/\D/g,'');
     }
     else{
       productId = this.walmartUrl.substring(this.walmartUrl.indexOf("?")-11,this.walmartUrl.indexOf("?"));
+      if(productId.includes('/')) 
+      productId = productId.slice(productId.lastIndexOf('/') + 1);
+      else
       productId = productId.replace(/\D/g,'');
     }
     console.log(productId)

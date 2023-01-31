@@ -134,6 +134,14 @@
   </pagination>
   </div>
 
+  <div class="d-flex justify-content-end mb-2">
+    <div>Show :&nbsp;&nbsp;&nbsp;</div>
+  <select class="form-select form-select-sm" [(ngModel)]="selectedValue" (ngModelChange)="onChange($event)"  >
+  <option  *ngFor="let o of options" [ngValue]="o" [selected]="o==userParams.pageSize">{{o}}</option>
+  </select>
+  <div *ngIf="pagination && pagination.totalItems;">&nbsp;&nbsp;&nbsp; Out of {{pagination.totalItems}}</div>
+  </div>
+
   <ng-template #noDrafts>
     <h1 style="text-align: center;">No Products To Show...</h1>
     <!-- <h1 style="text-align: center;">If you want to insert some new items please click the button below</h1>

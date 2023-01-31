@@ -113,6 +113,9 @@ export class ProductsService {
     return this.http.put(`${this.baseUrl}update-draft`, draft).pipe(
       tap(() => {
         this.draftCache.clear(); //To force getDrafts to render
+        if((this.productCache.get(this.cacheKey)?.result.length !== 1)){
+          this.productCache.clear()
+      }
       })
     );
   }
@@ -133,12 +136,33 @@ export class ProductsService {
     }));
   }
 
+  deleteProduct(id: number) {
+    return this.http.delete(this.baseUrl + 'delete-draft/' + id)
+    .pipe(tap( (t: any) => {
+      if(this.productCache.get(this.cacheKey)?.result.length == 1) {
+        this.productCache.get(this.cacheKey)!.pagination.currentPage= 1;
+        this.productCache.clear()
+        // this.getDrafts(new UserParams())
+      }
+      else{
+        this.decreaseTotalItemsCache()
+        this.productCache.clear()
+      }
+    }));
+  }
+
   createDraft(productId: string) {
     const cache = this.draftCache.get(this.cacheKey);
+    console.log(cache)
     const createDraft = { productId };
     return this.http.post(this.baseUrl + 'add-draft', createDraft)
       .pipe(tap((draft: any) =>{
-        if((cache?.pagination.currentPage == cache?.pagination.totalPages) && (cache!.pagination.totalItems % cache!.pagination.itemsPerPage !=0))
+        if(cache!.pagination.totalItems==0){
+          this.draftCache.get(this.cacheKey)?.result.push(draft);
+          this.increaseTotalItemsCache();
+            console.log("la")
+        }
+        else if((cache?.pagination.currentPage == cache?.pagination.totalPages) && (cache!.pagination.totalItems % cache!.pagination.itemsPerPage !=0))
         {
         this.draftCache.get(this.cacheKey)?.result.push(draft);
         this.increaseTotalItemsCache();
