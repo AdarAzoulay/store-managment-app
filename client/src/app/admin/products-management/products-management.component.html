@@ -1,28 +1,19 @@
 <div >
-    <h3 class="mb-3" *ngIf="products?.length !== 0; else null">Products ({{pagination!.totalItems}})</h3>
-
+    <input type="text" id="searchTextId" class="form-control me-2 w-50 my-3" [(ngModel)]="searchText" name="searchText" placeholder="Search By User ID">
   <table class="table align-middle mb-0 bg-white table-hover mt-4" *ngIf="products?.length !== 0; else noDrafts">
-  
       <thead class="bg-light">
           <tr>
-            <th></th>
             <th>Name</th>
             <th>Uploaded</th>
-            <!-- <th>Store</th> -->
             <th >Price</th>
             <th >Profit</th>
             <th >item ID</th>
-            <th >Sold</th>
-            <th style="text-align: center;">Actions</th>
+            <th >User ID</th>
           </tr>
         </thead>
-      <tbody *ngFor="let draft of products">
+        
+      <tbody *ngFor="let draft of (products | searchByUserId : searchText)">
         <tr>
-          <td style="max-width: 5px;">
-            <div>
-              <span class="ant-checkbox"><input type="checkbox" class="ant-checkbox-input" [(ngModel)]="draft.isChecked" (ngModelChange)="changed()" value=""></span>
-            </div>
-          </td>
           <td style="max-width: 450px;">
             <div class="d-flex align-items-center">
               <img
@@ -63,15 +54,7 @@
               </div>
           </td>
           <td>
-            {{draft.quantitySold}}
-          </td>
-          <td >
-            <div class="float-end">
-              <!-- <button type="button" class="btn btn-outline-secondary m-1" (click)="openModalWithComponent(draft)" >Edit</button> -->
-              <button type="button" class="btn btn-outline-warning  m-1"  (click)="toDraft(draft)">Back To Drafts</button>
-              <button type="button" class="btn btn-outline-danger m-1"  (click)="remove(draft.id)">Delete</button>
-              <button type="button" class="btn btn-outline-info m-1" routerLink="/products/{{draft.id}}">View details</button>
-            </div>
+            {{draft.userid}}
           </td>
         </tr>
         </tbody>
@@ -90,6 +73,15 @@
         lastText="&raquo;">
     </pagination>
     </div>
+
+  </div>
+  <div class="d-flex justify-content-end mb-2">
+    <div>Show :&nbsp;&nbsp;&nbsp;</div>
+  <select class="form-select form-select-sm" [(ngModel)]="selectedValue" (ngModelChange)="onChange($event)"  >
+  <option  *ngFor="let o of options" [ngValue]="o" [selected]="o==userParams.pageSize">{{o}}</option>
+  </select>
+  <div *ngIf="pagination && pagination.totalItems;">&nbsp;&nbsp;&nbsp; Out of {{pagination.totalItems}}</div>
+  </div>
   
     <ng-template #noDrafts>
       <h1 style="text-align: center;">No Products To Show...</h1>

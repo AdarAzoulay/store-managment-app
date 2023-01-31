@@ -12,27 +12,35 @@ import { ProductsService } from 'src/app/services/products.service';
   styleUrls: ['./products-management.component.css']
 })
 export class ProductsManagementComponent {
-  products?: Product[];
+  products: Product[];
   pagination: Pagination;
   userParams: UserParams;
   modalRef?: BsModalRef;
+  options = [1, 5, 10];
   count:number= 0;
-
+  selectedValue :number;
+  searchText = '';
 
   constructor(
     private productService: ProductsService,
-    private toastr: ToastrService,
     private modalService: BsModalService
   ) {
     this.userParams = new UserParams();
   }
 
   ngOnInit(): void {
+    this.selectedValue = this.userParams.pageSize;
     this.loadProducts();
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  onChange(newValue: any) {
+    this.userParams.pageSize = newValue;
+    this.pagination!.currentPage = 1;
+    this.loadProducts();
   }
 
   loadProducts() {
@@ -46,63 +54,18 @@ export class ProductsManagementComponent {
     });
   }
 
-  changed(){
-    this.count = 0;
-    this.products?.forEach(item=>{
-      if(item.isChecked){
-        this.count= this.count+1
-      }  
-    } )
-  }
 
-  checkUncheckAll(evt:any) {
-    this.count = 0;
-    this.products?.forEach((c) =>{
-    c.isChecked = evt.target.checked
-    if(c.isChecked){
-      this.count= this.count+1
-    }  
-    })
-  }
 
   pageChanged(event: any) {
     this.userParams.pageNumber = event.page;
     this.loadProducts();
   }
 
-  toDraft(draft: Product) {
-    draft.isUploaded = false;
-    this.productService.toDrafts(draft).subscribe(() => {
-      this.products?.splice(
-        this.products.findIndex((m) => m.id === draft.id),
-        1
-        );
-        this.toastr.success('Product Back To Drafts..');
-        this.pagination!.totalItems--;
-    });
-  }
+
 
   resetFilters() {
     this.userParams = new UserParams(); // to reset the params and reload the members data
     this.loadProducts();
   }
 
-  remove(id: number) {
-    this.productService.deleteDraft(id).subscribe(() => {
-      this.products?.splice(
-        this.products.findIndex((m) => m.id === id),
-        1
-      );
-      this.toastr.success('Products Deleted successfully');
-    });
-  }
-
-  removeSelected(){
-    this.products?.forEach(element => {
-      if(element.isChecked){
-        this.remove(element.id)
-      }  
-    });
-    this.count = 0;
-  }
 }

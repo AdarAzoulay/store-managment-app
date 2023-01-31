@@ -23,11 +23,11 @@ export class ProductDetailComponent {
     private productService: ProductsService,
     private route: ActivatedRoute,
     private router: Router,
-    private toastr: ToastrService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.isExists();
+    // this.isExists();
     this.loadOrder();
     this.galleryOptions = [
       {
@@ -43,10 +43,17 @@ export class ProductDetailComponent {
 
   loadOrder() {
     const id = this.route.snapshot.paramMap.get('id') as string;
-    this.productService.getDraftById(Number(id)).subscribe((product) => {
-      this.product = product;
-      this.galleryImages = this.getImages();
-    });
+    this.productService.getDraftById(Number(id)).subscribe(
+      {
+        next: (product) => {
+          this.product = product;
+          this.galleryImages = this.getImages();
+        },
+        error: (e) => {
+                this.router.navigate(['/products']);
+        },
+      }
+    );
   }
 
   getImages(): NgxGalleryImage[] {
@@ -62,13 +69,18 @@ export class ProductDetailComponent {
     return imageUrls;
   }
 
-  isExists() {
-    const id = this.route.snapshot.paramMap.get('id') as string;
-    this.productService.getDraftById(Number(id)).subscribe((product) => {
-      if (product === null) {
-        this.toastr.error(`No product found with ID: ${id}`)
-        this.router.navigate(['/products']);
-      }
-    });
-  }
+  // isExists() {
+  //   const id = this.route.snapshot.paramMap.get('id') as string;
+  //   this.productService.getDraftById(Number(id)).subscribe(
+  //     {
+  //       next: (v) => {},
+  //       error: (e) => {
+  //         if (e === null) {
+  //               this.toastr.error(`No product found with ID: ${id}`)
+  //               this.router.navigate(['/products']);
+  //             }
+  //       },
+  //     }
+  //   );
+  // }
 }

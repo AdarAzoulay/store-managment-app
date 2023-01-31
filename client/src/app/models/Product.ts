@@ -16,7 +16,10 @@ export interface Product {
     url: string;
     productCategory: string;
     detailedDescription: string;
+    userid: number;
+
 }
+
 
 export interface updatePhoto{
     productId: number;

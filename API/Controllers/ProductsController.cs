@@ -83,14 +83,22 @@ namespace API.Controllers
         public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
             var rtn = await _productRepository.GetSpesificProductDtoAsync(id);
+            if(rtn == null) return BadRequest($"No product found with ID: {id}");
+            if(await _productRepository.BelongToUser(id)){
             return rtn;
+            }
+            return BadRequest("The product does not belong to the logged-in user.");
         }
 
         [HttpGet("drafts/{id:int}")]
         public async Task<ActionResult<ProductDto>> GetProductDto(int id)
         {
             var rtn = await _productRepository.GetSpesificDraftAsync(id);
+            if(rtn == null) return BadRequest($"No product found with ID: {id}");
+            if(await _productRepository.BelongToUser(id)){
             return rtn;
+            }
+            return BadRequest("The product does not belong to the logged-in user.");
         }
 
         [HttpPut("update-draft")]
@@ -177,7 +185,7 @@ namespace API.Controllers
             };
             
             var user = await _userRepository.GetUserByIdAsync(int.Parse(id));
-                draft.SellPrice = (float)(Math.Round(draft.BuyPrice * user.AdditionalProfit,2));
+                draft.SellPrice = (float)(Math.Round(draft.BuyPrice * (user.AdditionalProfit/100+1),2));
 
             _productRepository.AddDraft(draft);
             if (!(await _productRepository.SaveAllAsync())) return BadRequest("Failed to Craete Draft");

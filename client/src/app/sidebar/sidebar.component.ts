@@ -38,7 +38,7 @@ export class SidebarComponent {
 
   createDraft(form:NgForm) {
     let productId;
-    if(/\d/.test(this.walmartUrl[this.walmartUrl.length-1]) && /d/.test(this.walmartUrl.slice(-5))){
+    if(/\d/.test(this.walmartUrl[this.walmartUrl.length-1]) && /\d/.test(this.walmartUrl.slice(-5))){
       productId = this.walmartUrl.substring(this.walmartUrl.length-11,this.walmartUrl.length );
       productId = productId.replace(/\D/g,'');
     }

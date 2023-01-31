@@ -15,7 +15,7 @@ namespace API.Interfaces
         void Update(Product product);
         Task<bool> SaveAllAsync();
         void DeleteDraft(Product product);
-        Task<PagedList<ProductDto>> GetProductsAsync(UserParams userParams);
+        Task<PagedList<ProductAdminDto>> GetProductsAsync(UserParams userParams);
         Task<PagedList<ProductDto>> GetDraftsAsync(UserParams userParams);
         Task<PagedList<ProductDto>> ProductsByCurrentUser(UserParams userParams);
         Task<PagedList<ProductDto>> DraftstsByCurrentUser(UserParams userParams);
@@ -23,6 +23,8 @@ namespace API.Interfaces
         Task<ProductDto> GetSpesificProductDtoAsync(int id);
         Task<ProductDto> GetSpesificDraftAsync(int id);
          Task<bool> ProductExist(string productId);
+         Task<bool> BelongToUser(int productId);
+
 
 
     }

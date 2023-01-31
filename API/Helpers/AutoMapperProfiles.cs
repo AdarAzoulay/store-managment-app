@@ -25,16 +25,39 @@ namespace API.Helpers
             CreateMap<Product, ProductDto>()
             .ForMember(
                 dest => dest.PhotoUrl,
-                opt=>{
-                    opt.MapFrom(src=> src.Photos.FirstOrDefault(p=>p.IsMain).Url);
+                opt =>
+                {
+                    opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url);
+                }
+            );
+
+            CreateMap<Product, ProductAdminDto>()
+            .ForMember(
+                dest => dest.PhotoUrl,
+                opt =>
+                {
+                    opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url);
+                }
+            ).ForMember(
+                dest => dest.Userid,
+                opt =>
+                {
+                    opt.MapFrom(src => src.AppUserId);
                 }
             );
 
             CreateMap<AppUser, UserWithRolesDTO>()
             .ForMember(
                 dest => dest.Roles,
-                opt=>{
-                    opt.MapFrom(src=> src.UserRoles.Select(r => r.Role.Name).ToList());
+                opt =>
+                {
+                    opt.MapFrom(src => src.UserRoles.Select(r => r.Role.Name).ToList());
+                }
+            ).ForMember(
+                dest => dest.Userid,
+                opt =>
+                {
+                    opt.MapFrom(src => src.Id);
                 }
             );
 

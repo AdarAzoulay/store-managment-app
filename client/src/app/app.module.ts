@@ -42,6 +42,7 @@ import { TopWidgetsComponent } from './dashboard/top-widgets/top-widgets.compone
 import { SalesByMonthComponent } from './dashboard/sales-by-month/sales-by-month.component';
 import { NgChartsModule } from 'ng2-charts';
 import { OverviewComponent } from './dashboard/overview/overview.component';
+import { searchByUserIdPipe } from './pipes/search-by-userid.pipe';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { OverviewComponent } from './dashboard/overview/overview.component';
     MainComponent,
     TopWidgetsComponent,
     SalesByMonthComponent,
-    OverviewComponent
+    OverviewComponent,
+    searchByUserIdPipe
   ],
   imports: [
     BrowserModule,

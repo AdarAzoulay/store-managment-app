@@ -1,5 +1,5 @@
 <div >
-  <h3 class="mb-3" *ngIf="products?.length !== 0; else null">Products ({{pagination!.totalItems}})</h3>
+  <h3 class="mb-3" *ngIf="pagination && pagination.totalItems; else null">Products ({{pagination.totalItems}})</h3>
 <div class="btn-group" dropdown *ngIf="products?.length !== 0; else null">
   <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"aria-controls="dropdown-basic">
     Add Filter <span class="caret"></span>
