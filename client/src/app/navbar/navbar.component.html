@@ -6,7 +6,7 @@
         <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button> -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
           <ul class="navbar-nav me-auto mb-2 mb-lg-0"> 
              <!-- <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Home</a>
@@ -14,14 +14,14 @@
            </ul>
 
           <form  class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="button">Search</button>
+            <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="button">Search</button> -->
             
             <div class="dropdown"  dropdown>
               <div class="d-flex flex-row align-items-center" style="margin:0 3rem ;">
                 <i class="fa fa-user fa-2x" style="cursor: pointer;" dropdownToggle></i>
                 <!-- <a class="dropdown-toggle danger" >{{user.username | titlecase}}</a> -->
-                <span>{{user.username | titlecase}}</span>
+                <span class="ms-2">{{user.username | titlecase}}</span>
    
               </div>
               <div class="dropdown-menu " *dropdownMenu>
@@ -32,6 +32,6 @@
             </div>
           </form>
         </div>
-      </div>
+      <!-- </div> -->
     </nav>
   </ng-container>

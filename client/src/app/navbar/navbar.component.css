@@ -18,10 +18,10 @@ body {
   }
 }
 @media (max-width: 767px) {
-  .show
+  /* .show
   {
     margin-left: -15rem!important;
-  }
+  } */
   .hide
   {
     margin-left: -0!important;
