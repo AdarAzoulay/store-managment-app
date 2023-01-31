@@ -23,7 +23,6 @@ export class MembersService {
   getMember(username: string) {
     if(this.member) return of(this.member)
     return this.http.get<Member>(`${this.baseUrl}users/${username}`).pipe(tap(res=>{
-      console.log(res)
       this.member = res;
     }));
   }

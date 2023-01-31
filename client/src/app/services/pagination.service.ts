@@ -28,7 +28,6 @@ export class PaginationService {
         let headers = new HttpParams();
         headers = headers.append('pageNumber', pageNumber.toString());
         headers = headers.append('pageSize', pageSize.toString());
-        console.log(headers)
         return headers;
       }
 }

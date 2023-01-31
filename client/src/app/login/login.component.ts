@@ -25,7 +25,6 @@ export class LoginComponent {
     this.accountService.login(this.model)
       .subscribe(response => {
         this.router.navigateByUrl('/');
-        console.log(response);
       },
       )
   }

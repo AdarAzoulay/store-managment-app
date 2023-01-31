@@ -49,11 +49,9 @@ export class RegisterComponent {
 
   register() {
     this.accountService.register(this.registerForm.value).subscribe(res=>{
-      console.log(res);
       this.router.navigateByUrl('/');
     },
     (err)=>{
-      console.log(err);
       this.validationErrors= err;
     })
 

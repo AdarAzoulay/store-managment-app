@@ -33,10 +33,8 @@ export class AppComponent {
   //       this.users = res;
   //     },
   //     (err) => {
-  //       console.log(err);
   //     },
   //     () => {
-  //       console.log('comleted');
   //     }
   //   );
   // }

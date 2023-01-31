@@ -30,7 +30,6 @@ export class SidebarComponent {
     this.currentUser$ = accountService.currentUser$;
   }
   ngOnInit() {
-    console.log(this.status);
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
@@ -49,7 +48,6 @@ export class SidebarComponent {
       else
       productId = productId.replace(/\D/g,'');
     }
-    console.log(productId)
     this.productService.createDraft(productId).subscribe((res) => {
       this.toastr.success('Draft Uploaded Successfully');
       this.modalRef?.hide();

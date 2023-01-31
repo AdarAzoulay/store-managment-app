@@ -37,7 +37,6 @@ export class ProductsService {
     const cacheKey = Object.values(userParams).join('-');
     this.cacheKey = cacheKey;
     const response = this.productCache.get(cacheKey);
-    console.log(response)
     if(response) return of(response);
 
     params = params.append('minBuyPrice', userParams.minBuyPrice.toString());
@@ -61,7 +60,6 @@ export class ProductsService {
     const cacheKey = Object.values(userParams).join('-');
     this.cacheKey = cacheKey;
     const response = this.productCache.get(cacheKey);
-    console.log(response)
     if(response) return of(response);
 
     params = params.append('minBuyPrice', userParams.minBuyPrice.toString());
@@ -153,14 +151,12 @@ export class ProductsService {
 
   createDraft(productId: string) {
     const cache = this.draftCache.get(this.cacheKey);
-    console.log(cache)
     const createDraft = { productId };
     return this.http.post(this.baseUrl + 'add-draft', createDraft)
       .pipe(tap((draft: any) =>{
         if(cache!.pagination.totalItems==0){
           this.draftCache.get(this.cacheKey)?.result.push(draft);
           this.increaseTotalItemsCache();
-            console.log("la")
         }
         else if((cache?.pagination.currentPage == cache?.pagination.totalPages) && (cache!.pagination.totalItems % cache!.pagination.itemsPerPage !=0))
         {

@@ -41,7 +41,6 @@ export class AccountService {
   changePassword(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/changePassword', model).pipe(
       tap((res : any) => {
-        console.log(res)
         const user = res;
         if (user) {
           this.setCurrentUser(user);
@@ -54,7 +53,6 @@ export class AccountService {
   // getMember(username: string) {
   //   if(this.member) return of(this.member)
   //   return this.http.get<Member>(`${this.baseUrl}users/${username}`).pipe(tap(res=>{
-  //     console.log(res)
   //     this.member = res;
   //   }));
   // }

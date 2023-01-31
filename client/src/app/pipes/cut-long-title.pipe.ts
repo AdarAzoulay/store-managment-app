@@ -9,7 +9,6 @@ export class CutLongTitlePipe implements PipeTransform {
     if(value.length>30)
     {
         value = value.substring(0,30) + '\n' + value.substring(30,value.length) ;
-        console.log(value)
     }
     return value;
   }
