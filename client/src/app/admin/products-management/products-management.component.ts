@@ -45,7 +45,6 @@ export class ProductsManagementComponent {
 
   loadProducts() {
     this.productService.getProducts(this.userParams).subscribe((res) => {
-      console.log(res)
       this.products = res.result;
       this.pagination = res.pagination;
       this.products.forEach(e=>{

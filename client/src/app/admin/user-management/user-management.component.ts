@@ -30,7 +30,6 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.pagination)
     this.selectedValue = this.userParams.pageSize;
     this.getUsersWithRoles();
   }
@@ -46,7 +45,6 @@ export class UserManagementComponent implements OnInit {
     this.adminService.getUsersWithRoles(this.userParams).subscribe((res) => {
       // this.drafts = res.result;
       this.pagination = res.pagination;
-      console.log(res);
       this.users = res.result;
     });
   }
@@ -74,7 +72,6 @@ export class UserManagementComponent implements OnInit {
             user.roles = roleValues;
           },
           (error) => {
-            console.log(error);
           }
         );
       } else {
@@ -91,7 +88,6 @@ export class UserManagementComponent implements OnInit {
       { name: 'Moderator', value: 'Moderator' },
       { name: 'Member', value: 'Member' },
     ];
-    console.log(roles);
     availableRoles.forEach((role) => {
       let isMatch = false;
       for (const userRole of userRoles) {
